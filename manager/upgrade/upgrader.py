@@ -1,0 +1,2 @@
+class Upgrader(object):
+	pass
