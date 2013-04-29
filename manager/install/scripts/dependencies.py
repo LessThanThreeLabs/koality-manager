@@ -16,7 +16,7 @@ class DependenciesInstallScript(InstallShellScript):
 
 	@classmethod
 	def get_script(cls):
-		return 'apt-get install %s' % ' '.join(cls._dependencies)
+		return 'apt-get install -y %s' % ' '.join(cls._dependencies)
 
 
 class JavaInstallScript(InstallShellScript):
@@ -31,3 +31,13 @@ class JavaInstallScript(InstallShellScript):
 				apt-get install -y sun-java6-jdk maven
 			fi
 		''' % os.path.join(dependencies_directory, 'java')
+
+
+class HaproxyInstallScript(InstallShellScript):
+	@classmethod
+	def get_script(cls):
+		return '''
+			cd %s
+			make clean
+			make install USE_OPENSSL=1 -j 4
+		''' % os.path.join(dependencies_directory, 'haproxy')
