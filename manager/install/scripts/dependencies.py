@@ -80,6 +80,7 @@ class PostgresInstallScript(ShellScript):
 	def get_script(cls):
 		return '''
 			apt-get install -y postgresql libpq-dev
+			sed -i.bak -r 's/^(\w+(\s+\S+){2,3}\s+)\w+$/\1trust/g' /etc/postgresql/9.1/main/pg_hba.conf
 			sed -i.bak -r 's/^.*fsync .*$/fsync off/g' /etc/postgresql/9.1/main/postgresql.conf
 			service postgresql restart
 		'''

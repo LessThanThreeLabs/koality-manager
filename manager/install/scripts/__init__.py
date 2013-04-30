@@ -3,6 +3,7 @@ from dependencies import RabbitmqInstallScript, RedisInstallScript, PostgresInst
 from jgit import JgitInstallScript
 from openssh import OpenSshInstallScript, OpenSshConfigureScript, OpenSshLaunchScript
 from platform import PlatformRabbitmqInstallScript, PlatformSchemaInstallScript
+from user import Lt3UserInstallScript, GitUserInstallScript, VerificationUserInstallScript
 
 install_scripts = [
 	DependenciesInstallScript,
@@ -17,5 +18,8 @@ install_scripts = [
 	OpenSshConfigureScript,
 	OpenSshLaunchScript,
 	PlatformRabbitmqInstallScript,
-	PlatformSchemaInstallScript
+	PlatformSchemaInstallScript,
+	Lt3UserInstallScript,
+	GitUserInstallScript,
+	VerificationUserInstallScript
 ]

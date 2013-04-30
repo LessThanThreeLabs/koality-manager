@@ -13,4 +13,9 @@ class PlatformRabbitmqInstallScript(ShellScript):
 class PlatformSchemaInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return os.path.join(python_bin_directory, 'koality-schema')
+		return '''
+			sudo -u postgres psql -c "create user lt3 with password ''"
+			sudo -u postgres psql -c "create database koality"
+			sudo -u postgres psql -c "grant all privileges on database koality to lt3"
+			%s
+		''' % os.path.join(python_bin_directory, 'koality-schema')

@@ -27,6 +27,7 @@ class PlatformPackageScript(ShellScript):
 class WebPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
+		# This script currently doesn't work at all
 		return '''
 			mkdir nvm
 			wget -P nvm https://raw.github.com/creationix/nvm/master/nvm.sh

@@ -13,22 +13,22 @@ class Runner(object):
 			Watcher(
 				name='model_server',
 				cmd=self._python_bin('koality-start-model-server'),
-#				working_dir='/tmp/model_server',
-#				user='lt3'
+				working_dir='/tmp/model_server',
+				user='lt3'
 			),
 			Watcher(
 				name='verification_server',
 				cmd=self._python_bin('koality-start-verification-server'),
 				args=['--type', 'aws', '--cleanup'],
-#				working_dir='/verification/server',
-#				user='verification'
+				working_dir='/verification/server',
+				user='verification'
 			),
 			Watcher(
 				name='ec2_snapshotter',
 				cmd=self._python_bin('koality-ec2-snapshotter'),
 				args=['--daemon'],
-#				working_dir='/verification/snapshotter',
-#				user='verification'
+				working_dir='/verification/snapshotter',
+				user='verification'
 			)
 		]
 		self.watchers = [Watcher]
