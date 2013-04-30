@@ -1,4 +1,4 @@
-from manager.sharedscript import ShellScript
+from manager.shared.script import ShellScript
 
 
 class OpenSshInstallScript(ShellScript):

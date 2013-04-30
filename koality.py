@@ -2,7 +2,9 @@
 
 import argparse
 
-from manager import Installer, Runner, Upgrader
+from manager.install import Installer
+from manager.run import Runner
+from manager.upgrade import Upgrader
 
 
 def main():

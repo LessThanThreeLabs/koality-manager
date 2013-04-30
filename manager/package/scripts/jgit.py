@@ -3,7 +3,8 @@ from manager.shared.script import ShellScript
 
 
 class JgitPackageScript(ShellScript):
-	def get_script(self):
+	@classmethod
+	def get_script(cls):
 		return '''
 			cd %s
 			git clone git://github.com/LessThanThreeLabs/jgit.git

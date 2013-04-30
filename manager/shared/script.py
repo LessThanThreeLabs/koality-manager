@@ -1,13 +1,7 @@
 import subprocess
 
 
-class InstallScript(object):
-	@classmethod
-	def run(cls):
-		raise NotImplementedError()
-
-
-class InstallShellScript(object):
+class ShellScript(object):
 	@classmethod
 	def run(cls):
 		return subprocess.call(cls.get_script(), shell=True) == 0
