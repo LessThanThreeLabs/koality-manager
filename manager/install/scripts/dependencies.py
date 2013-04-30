@@ -1,10 +1,10 @@
 import os
 
-from manager import dependencies_directory
-from script import InstallShellScript
+from manager.shared import dependencies_directory
+from manager.shared.script import ShellScript
 
 
-class DependenciesInstallScript(InstallShellScript):
+class DependenciesInstallScript(ShellScript):
 	_dependencies = (
 		'make',
 		'git',
@@ -19,7 +19,7 @@ class DependenciesInstallScript(InstallShellScript):
 		return 'apt-get install -y %s' % ' '.join(cls._dependencies)
 
 
-class JavaInstallScript(InstallShellScript):
+class JavaInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
@@ -33,7 +33,7 @@ class JavaInstallScript(InstallShellScript):
 		''' % os.path.join(dependencies_directory, 'java')
 
 
-class HaproxyInstallScript(InstallShellScript):
+class HaproxyInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''

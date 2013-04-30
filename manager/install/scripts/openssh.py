@@ -1,7 +1,7 @@
-from script import InstallShellScript
+from manager.sharedscript import ShellScript
 
 
-class OpenSshInstallScript(InstallShellScript):
+class OpenSshInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
@@ -19,7 +19,7 @@ class OpenSshInstallScript(InstallShellScript):
 		'''
 
 
-class OpenSshConfigureScript(InstallShellScript):
+class OpenSshConfigureScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
@@ -40,7 +40,7 @@ class OpenSshConfigureScript(InstallShellScript):
 			'''
 
 
-class OpenSshLaunchScript(InstallShellScript):
+class OpenSshLaunchScript(ShellScript):
 	_move_standard_daemon_script = '''
 		service ssh stop
 		/usr/sbin/sshd -p 2222

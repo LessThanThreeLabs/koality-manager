@@ -1,10 +1,10 @@
 import os
 
-from manager import dependencies_directory
-from script import InstallShellScript
+from manager.shared import dependencies_directory
+from manager.shared.script import ShellScript
 
 
-class JgitInstallScript(InstallShellScript):
+class JgitInstallScript(ShellScript):
 	_install_script = '''
 		cd %s
 		mvn install
