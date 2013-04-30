@@ -11,12 +11,20 @@ class DependenciesInstallScript(ShellScript):
 		'postgresql',
 		'python-software-properties',
 		'build-essential',
-		'libyaml-dev'
+		'libyaml-dev',
+		'python-dev',
+		'python-pip'
 	)
 
 	@classmethod
 	def get_script(cls):
 		return 'apt-get install -y %s' % ' '.join(cls._dependencies)
+
+
+class CircusInstallScript(ShellScript):
+	@classmethod
+	def get_script(cls):
+		return 'pip install circus'
 
 
 class JavaInstallScript(ShellScript):

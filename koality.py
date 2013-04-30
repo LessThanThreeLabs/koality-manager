@@ -2,10 +2,6 @@
 
 import argparse
 
-from manager.install import Installer
-from manager.run import Runner
-from manager.upgrade import Upgrader
-
 
 def main():
 	parser = argparse.ArgumentParser()
@@ -18,10 +14,13 @@ def main():
 	args = parser.parse_args()
 
 	if args.run:
+		from manager.run import Runner
 		Runner().run()
 	elif args.install:
+		from manager.install import Installer
 		Installer().run()
 	elif args.upgrade:
+		from manager.upgrade import Upgrader
 		Upgrader().run()
 	else:
 		raise Exception('No valid mode specified')
