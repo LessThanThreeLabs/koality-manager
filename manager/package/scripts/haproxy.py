@@ -5,7 +5,6 @@ from manager.shared.script import ShellScript
 class HaproxyPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		print dependencies_directory
 		return '''
 			cd %s
 			wget http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev17.tar.gz
