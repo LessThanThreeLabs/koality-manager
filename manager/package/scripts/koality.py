@@ -1,6 +1,6 @@
 import os
 
-from manager.shared import dependencies_directory, python_bin_directory, virtualenv_directory
+from manager.shared import conf_directory, dependencies_directory, python_bin_directory, virtualenv_directory
 from manager.shared.script import ShellScript
 
 
@@ -13,6 +13,8 @@ class PlatformPackageScript(ShellScript):
 			cd /tmp
 			git clone git@github.com:LessThanThreeLabs/agles.git
 			cp agles/ci/scripts/rabbitmq_setup.sh %s
+			mkdir -p %s
+			cp agles/ci/platform/conf/redis/* %s
 			cd agles/ci/platform
 			%s install -r requirements.txt
 			%s setup.py install
@@ -20,6 +22,8 @@ class PlatformPackageScript(ShellScript):
 			rm -rf agles
 		''' % (virtualenv_directory,
 				dependencies_directory,
+				os.path.join(conf_directory, 'redis'),
+				os.path.join(conf_directory, 'redis'),
 				os.path.join(python_bin_directory, 'pip'),
 				os.path.join(python_bin_directory, 'python'))
 
@@ -27,7 +31,8 @@ class PlatformPackageScript(ShellScript):
 class WebPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		# This script currently doesn't work at all
+		# TODO: This script currently doesn't work at all
+		# this needs to install webserver and api server, as well as copy over conf files
 		return '''
 			mkdir nvm
 			wget -P nvm https://raw.github.com/creationix/nvm/master/nvm.sh
