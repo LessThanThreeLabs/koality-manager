@@ -9,8 +9,6 @@ class JgitInstallScript(ShellScript):
 		cd %s
 		mvn install
 		cp org.eclipse.jgit.pgm/target/jgit /usr/bin/
-		mkdir -p /usr/bin/gitbin
-		mv /usr/bin/git-* /usr/bin/gitbin
 	''' % os.path.join(dependencies_directory, 'jgit')
 
 	_link_script = ''

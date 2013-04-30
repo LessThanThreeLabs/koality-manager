@@ -3,6 +3,8 @@ from java import JavaPackageScript
 from jgit import JgitPackageScript
 from koality import PlatformPackageScript, WebPackageScript
 from openssh import OpenSshPackageScript
+from rabbitmq import RabbitmqPackageScript
+from redis import RedisPackageScript
 
 
 package_scripts = [
@@ -10,6 +12,8 @@ package_scripts = [
 	JavaPackageScript,
 	JgitPackageScript,
 	OpenSshPackageScript,
+	RabbitmqPackageScript,
+	RedisPackageScript,
 	PlatformPackageScript,
 	WebPackageScript
 ]
