@@ -8,6 +8,7 @@ class PlatformPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
+			pip install virtualenv
 			virtualenv %s --no-site-packages
 			cd /tmp
 			git clone git@github.com:LessThanThreeLabs/agles.git
