@@ -17,9 +17,9 @@ install_scripts = [
 	OpenSshInstallScript,
 	OpenSshConfigureScript,
 	OpenSshLaunchScript,
-	PlatformRabbitmqInstallScript,
-	PlatformSchemaInstallScript,
 	Lt3UserInstallScript,
 	GitUserInstallScript,
-	VerificationUserInstallScript
+	VerificationUserInstallScript,
+	PlatformRabbitmqInstallScript,
+	PlatformSchemaInstallScript
 ]

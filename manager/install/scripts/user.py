@@ -20,8 +20,8 @@ class GitUserInstallScript(ShellScript):
 			adduser git --home /home/git --shell /bin/bash --disabled-password --gecos ''
 			sudo -u git ssh-keygen -t rsa -N "" -f /home/git/.ssh/id_rsa -C git_user
 			sudo -u git cat /home/git/.ssh/id_rsa.pub >> /home/git/.ssh/authorized_keys
-			sudo -u git git config --global user.email "koality@koalitycode.com"
-			sudo -u git git config --global user.name "Koality"
+			sudo -u git HOME=/home/git git config --global user.email "koality@koalitycode.com"
+			sudo -u git HOME=/home/git git config --global user.name "Koality"
 			mkdir -p /git/repositories
 			chown -R git:git /git
 		'''

@@ -44,9 +44,11 @@ class HaproxyInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
-			cd %s
-			make clean
-			make install USE_OPENSSL=1 -j 4
+			if [ ! "$(which haproxy)" ]; then
+				cd %s
+				make clean
+				make install USE_OPENSSL=1 -j 4
+			fi
 		''' % os.path.join(dependencies_directory, 'haproxy')
 
 
@@ -54,8 +56,10 @@ class RabbitmqInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
-			apt-get install -y rabbitmq-server
-			dpkg -i %s
+			if [ ! "$(which rabbitmq-server)" ]; then
+				apt-get install -y rabbitmq-server
+				dpkg -i %s
+			fi
 			mkdir /etc/rabbitmq/rabbitmq.conf.d
 			rabbitmq-plugins enable rabbitmq_management
 			service rabbitmq-server restart
@@ -69,9 +73,11 @@ class RedisInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
-			cd %s
-			make
-			make install
+			if [ ! "$(which redis-server)" ]; then
+				cd %s
+				make
+				make install
+			fi
 		''' % os.path.join(dependencies_directory, 'redis')
 
 
