@@ -11,16 +11,16 @@ class Runner(object):
 	def __init__(self):
 		self._koality_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 
+		git = pwd.getpwnam('git')
 		lt3 = pwd.getpwnam('lt3')
 		root = pwd.getpwnam('root')
 		verification = pwd.getpwnam('verification')
-		git = pwd.getpwnam('git')
 
 		self._watchers = [
 			# REDIS
 			Watcher(
 				name='redis-repostore',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'filesystem_repo_server_redis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
@@ -29,7 +29,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='redis-sessionStore',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'sesssionStoreRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
@@ -38,7 +38,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='redis-createAccount',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'createAccountRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
@@ -47,7 +47,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='redis-createRepository',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'createRepositoryRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
@@ -57,7 +57,7 @@ class Runner(object):
 			# HAPROXY
 			Watcher(
 				name='haproxy',
-				cmd='haproxy',
+				cmd='/usr/local/sbin/haproxy',
 				args=['-f', os.path.join(conf_directory, 'haproxy', 'haproxy.conf')],
 				uid=root[2],
 				gid=root[3],
@@ -123,7 +123,6 @@ class Runner(object):
 				priority=2
 			)
 		]
-		self.watchers = [Watcher]
 
 	def _python_bin(self, bin_name):
 		return os.path.join(python_bin_directory, bin_name)
