@@ -1,4 +1,5 @@
 import os
+import pwd
 
 from circus.arbiter import Arbiter
 from circus.watcher import Watcher
@@ -9,34 +10,44 @@ from manager.shared import conf_directory, python_bin_directory
 class Runner(object):
 	def __init__(self):
 		self._koality_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
+
+		lt3 = pwd.getpwnam('lt3')
+		root = pwd.getpwnam('root')
+		verification = pwd.getpwnam('verification')
+		git = pwd.getpwnam('git')
+
 		self._watchers = [
 			# REDIS
 			Watcher(
 				name='redis-repostore',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'filesystem_repo_server_redis.conf')],
-				user='lt3',
+				uid=lt3[2],
+				gid=lt3[3],
 				priority=0
 			),
 			Watcher(
 				name='redis-sessionStore',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'sesssionStoreRedis.conf')],
-				user='lt3',
+				uid=lt3[2],
+				gid=lt3[3],
 				priority=0
 			),
 			Watcher(
 				name='redis-createAccount',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'createAccountRedis.conf')],
-				user='lt3',
+				uid=lt3[2],
+				gid=lt3[3],
 				priority=0
 			),
 			Watcher(
 				name='redis-createRepository',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'createRepositoryRedis.conf')],
-				user='lt3',
+				uid=lt3[2],
+				gid=lt3[3],
 				priority=0
 			),
 			# HAPROXY
@@ -44,7 +55,8 @@ class Runner(object):
 				name='haproxy',
 				cmd='haproxy',
 				args=['-f', os.path.join(conf_directory, 'haproxy', 'haproxy.conf')],
-				user='root',
+				uid=root[2],
+				gid=root[3],
 				priority=0
 			),
 			# PLATFORM
@@ -52,8 +64,9 @@ class Runner(object):
 				name='model_server',
 				cmd=self._python_bin('koality-start-model-server'),
 				working_dir='/tmp/model_server',
-				user='lt3',
-				env={'HOME': '/home/lt3'},
+				uid=lt3[2],
+				gid=lt3[3],
+				env={'HOME': lt3[5]},
 				priority=1
 			),
 			Watcher(
@@ -61,8 +74,9 @@ class Runner(object):
 				cmd=self._python_bin('koality-start-verification-server'),
 				args=['--type', 'aws', '--cleanup'],
 				working_dir='/verification/server',
-				user='verification',
-				env={'HOME': '/home/verification'},
+				uid=verification[2],
+				gid=verification[3],
+				env={'HOME': verification[5]},
 				priority=2
 			),
 			Watcher(
@@ -70,16 +84,18 @@ class Runner(object):
 				cmd=self._python_bin('koality-ec2-snapshotter'),
 				args=['--daemon'],
 				working_dir='/verification/snapshotter',
-				user='verification',
-				env={'HOME': '/home/verification'},
+				uid=verification[2],
+				gid=verification[3],
+				env={'HOME': verification[5]},
 				priority=2
 			),
 			Watcher(
 				name='filesystem_repo_server',
 				cmd=self._python_bin('koality-filesystem-repo-server'),
 				args=['-r', '/git/repositories'],
-				user='git',
-				env={'HOME': '/home/git'},
+				uid=git[2],
+				gid=git[3],
+				env={'HOME': git[5]},
 				priority=2
 			),
 			# WEB SERVER
@@ -87,8 +103,9 @@ class Runner(object):
 				name='webserver',
 				cmd='some path to node',  # TODO: FIX
 				args=['--harmony', 'js/index.js', '--httpsPort', '10443', '--mode', 'production'],
-				user='lt3',
-				env={'HOME': '/home/lt3'},
+				uid=lt3[2],
+				gid=lt3[3],
+				env={'HOME': lt3[5]},
 				priority=2
 			),
 			# API SERVER
@@ -96,8 +113,9 @@ class Runner(object):
 				name='api-server',
 				cmd='some path to node',  # TODO: FIX
 				args=['--harmony', 'js/index.js', '--httpsPort', '10443', '--mode', 'production'],
-				user='lt3',
-				env={'HOME': '/home/lt3'},
+				uid=lt3[2],
+				gid=lt3[3],
+				env={'HOME': lt3[5]},
 				priority=2
 			)
 		]
