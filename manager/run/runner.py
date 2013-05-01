@@ -95,7 +95,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='filesystem_repo_server',
-				cmd=self._python_bin('koality-filesystem-repo-server'),
+				cmd=self._python_bin('koality-start-filesystem-repo-server'),
 				args=['-r', '/git/repositories'],
 				uid=git[2],
 				gid=git[3],
