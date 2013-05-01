@@ -1,6 +1,6 @@
 import os
 
-from manager.shared import conf_directory, dependencies_directory, python_bin_directory, virtualenv_directory
+from manager.shared import conf_directory, dependencies_directory, node_directory, nvm_directory, python_bin_directory, virtualenv_directory
 from manager.shared.script import ShellScript
 
 
@@ -15,6 +15,7 @@ class PlatformPackageScript(ShellScript):
 			cp agles/ci/scripts/rabbitmq_setup.sh %s
 			mkdir -p %s
 			cp agles/ci/platform/conf/redis/* %s
+			cp agles/ci/web/haproxy.conf %s
 			cd agles/ci/platform
 			%s install -r requirements.txt
 			%s setup.py install
@@ -24,6 +25,7 @@ class PlatformPackageScript(ShellScript):
 				dependencies_directory,
 				os.path.join(conf_directory, 'redis'),
 				os.path.join(conf_directory, 'redis'),
+				os.path.join(conf_directory, 'haproxy'),
 				os.path.join(python_bin_directory, 'pip'),
 				os.path.join(python_bin_directory, 'python'))
 
@@ -31,23 +33,31 @@ class PlatformPackageScript(ShellScript):
 class WebPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		# TODO: This script currently doesn't work at all
-		# this needs to install webserver and api server, as well as copy over conf files
 		return '''
-			mkdir nvm
-			wget -P nvm https://raw.github.com/creationix/nvm/master/nvm.sh
-			source nvm/nvm.sh
+			mkdir -p %s
+			cd %s
+			mkdir -p %s
+			wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh
+			source %s
 			nvm install 0.8.12
 			nvm use 0.8.12
-			cd /tmp
-			git clone git@github.com:LessThanThreeLabs/koality-webserver.git
-			cd koality-webserver
-			npm install -g
-			cd /tmp
-			rm -rf koality-webserver
-			git clone git@github.com:LessThanThreeLabs/koality-api-server.git
-			cd koality-api-server
-			npm install -g
-			cd /tmp
-			rm -rf koality-api-server
-		'''
+			npm install -g iced-coffee-script
+			npm install -g grunt-cli
+			cd node
+			git clone git@github.com:LessThanThreeLabs/koality-webserver.git webserver
+			cd webserver
+			npm install
+			grunt production
+			rm -rf src front/src front/test .git
+			cd %s
+			git clone git@github.com:LessThanThreeLabs/koality-api-server.git api-server
+			cd api-server
+			npm install
+			./compile
+			rm -rf src .git
+		''' % (node_directory,
+				node_directory,
+				nvm_directory,
+				nvm_directory,
+				os.path.join(nvm_directory, 'nvm.sh'),
+				node_directory)

@@ -4,7 +4,7 @@ import pwd
 from circus.arbiter import Arbiter
 from circus.watcher import Watcher
 
-from manager.shared import conf_directory, python_bin_directory
+from manager.shared import conf_directory, node_directory, nvm_directory, python_bin_directory
 
 
 class Runner(object):
@@ -30,7 +30,7 @@ class Runner(object):
 			Watcher(
 				name='redis-sessionStore',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(conf_directory, 'redis', 'sesssionStoreRedis.conf')],
+				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'sesssionStoreRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
@@ -39,7 +39,7 @@ class Runner(object):
 			Watcher(
 				name='redis-createAccount',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(conf_directory, 'redis', 'createAccountRedis.conf')],
+				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'createAccountRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
@@ -48,7 +48,7 @@ class Runner(object):
 			Watcher(
 				name='redis-createRepository',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(conf_directory, 'redis', 'createRepositoryRedis.conf')],
+				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'createRepositoryRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
@@ -105,8 +105,9 @@ class Runner(object):
 			# WEB SERVER
 			Watcher(
 				name='webserver',
-				cmd='some path to node',  # TODO: FIX
-				args=['--harmony', 'js/index.js', '--httpsPort', '10443', '--mode', 'production'],
+				cmd=os.path.join(nvm_directory, 'v0.8.12', 'bin', 'node'),
+				args=['--harmony', os.path.join(node_directory, 'webserver', 'libs', 'index.js'), '--httpsPort', '10443', '--mode', 'production'],
+				working_dir=os.path.join(node_directory, 'webserver'),
 				uid=lt3[2],
 				gid=lt3[3],
 				env={'HOME': lt3[5]},
@@ -115,8 +116,9 @@ class Runner(object):
 			# API SERVER
 			Watcher(
 				name='api-server',
-				cmd='some path to node',  # TODO: FIX
-				args=['--harmony', 'js/index.js', '--httpsPort', '10443', '--mode', 'production'],
+				cmd=os.path.join(nvm_directory, 'v0.8.12', 'bin', 'node'),
+				args=['--harmony', os.path.join(node_directory, 'api-server', 'libs', 'index.js'), '--httpsPort', '10443', '--mode', 'production'],
+				working_dir=os.path.join(node_directory, 'api-server'),
 				uid=lt3[2],
 				gid=lt3[3],
 				env={'HOME': lt3[5]},
