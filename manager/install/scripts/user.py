@@ -10,6 +10,7 @@ class Lt3UserInstallScript(ShellScript):
 		return '''
 			adduser lt3 --home /home/lt3 --shell /bin/bash --disabled-password --gecos ""
 			mkdir /tmp/model_server
+			chown -R lt3:lt3 /tmp/model_server
 		'''
 
 

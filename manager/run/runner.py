@@ -30,7 +30,7 @@ class Runner(object):
 			Watcher(
 				name='redis-sessionStore',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'sesssionStoreRedis.conf')],
+				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'conf', 'sesssionStoreRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
@@ -39,7 +39,7 @@ class Runner(object):
 			Watcher(
 				name='redis-createAccount',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'createAccountRedis.conf')],
+				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'conf', 'createAccountRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
@@ -48,7 +48,7 @@ class Runner(object):
 			Watcher(
 				name='redis-createRepository',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'createRepositoryRedis.conf')],
+				args=[os.path.join(self._koality_root, 'node', 'webserver', 'redis', 'conf', 'createRepositoryRedis.conf')],
 				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],

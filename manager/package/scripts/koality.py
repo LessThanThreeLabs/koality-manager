@@ -15,6 +15,7 @@ class PlatformPackageScript(ShellScript):
 			cp agles/ci/scripts/rabbitmq_setup.sh %s
 			mkdir -p %s
 			cp agles/ci/platform/conf/redis/* %s
+			mkdir -p %s
 			cp agles/ci/web/haproxy.conf %s
 			cd agles/ci/platform
 			%s install -r requirements.txt
@@ -25,6 +26,7 @@ class PlatformPackageScript(ShellScript):
 				dependencies_directory,
 				os.path.join(conf_directory, 'redis'),
 				os.path.join(conf_directory, 'redis'),
+				os.path.join(conf_directory, 'haproxy'),
 				os.path.join(conf_directory, 'haproxy'),
 				os.path.join(python_bin_directory, 'pip'),
 				os.path.join(python_bin_directory, 'python'))
