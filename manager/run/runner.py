@@ -117,7 +117,7 @@ class Runner(object):
 			Watcher(
 				name='api-server',
 				cmd=os.path.join(nvm_directory, 'v0.8.12', 'bin', 'node'),
-				args=['--harmony', os.path.join(node_directory, 'api-server', 'libs', 'index.js'), '--httpsPort', '10443', '--mode', 'production'],
+				args=['--harmony', os.path.join(node_directory, 'api-server', 'libs', 'index.js'), '--httpsPort', '1337', '--mode', 'production'],
 				working_dir=os.path.join(node_directory, 'api-server'),
 				uid=lt3[2],
 				gid=lt3[3],
