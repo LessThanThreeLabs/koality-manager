@@ -22,6 +22,7 @@ class Runner(object):
 				name='redis-repostore',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'filesystem_repo_server_redis.conf')],
+				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
 				priority=0
@@ -30,6 +31,7 @@ class Runner(object):
 				name='redis-sessionStore',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'sesssionStoreRedis.conf')],
+				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
 				priority=0
@@ -38,6 +40,7 @@ class Runner(object):
 				name='redis-createAccount',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'createAccountRedis.conf')],
+				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
 				priority=0
@@ -46,6 +49,7 @@ class Runner(object):
 				name='redis-createRepository',
 				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'createRepositoryRedis.conf')],
+				working_dir=self._koality_root,
 				uid=lt3[2],
 				gid=lt3[3],
 				priority=0
