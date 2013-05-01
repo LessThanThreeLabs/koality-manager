@@ -8,4 +8,5 @@ class JavaPackageScript(ShellScript):
 		return '''
 			cd %s
 			git clone git://github.com/flexiondotorg/oab-java6.git java
+			rm -rf java/.git
 		''' % dependencies_directory
