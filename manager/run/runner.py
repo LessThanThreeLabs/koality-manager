@@ -30,7 +30,7 @@ class Runner(object):
 			Watcher(
 				name='redis-sessionStore',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'sesssionStoreRedis.conf')],
+				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'sessionStoreRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				uid=lt3[2],
 				gid=lt3[3],

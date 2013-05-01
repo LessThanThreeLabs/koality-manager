@@ -50,6 +50,7 @@ class WebPackageScript(ShellScript):
 			cd webserver
 			npm install
 			grunt production
+			chmod -R a+w redis
 			rm -rf src front/src front/test .git
 			cd %s
 			git clone git@github.com:LessThanThreeLabs/koality-api-server.git api-server
