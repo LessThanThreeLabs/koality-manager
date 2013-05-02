@@ -1,6 +1,6 @@
 import os
 
-from manager.shared import dependencies_directory
+from manager.shared import koality_root, dependencies_directory
 from manager.shared.script import ShellScript
 
 
@@ -77,8 +77,10 @@ class RedisInstallScript(ShellScript):
 				cd %s
 				make
 				make install
+				chmod a+w %s
 			fi
-		''' % os.path.join(dependencies_directory, 'redis')
+		''' % (os.path.join(dependencies_directory, 'redis'),
+				os.path.join(koality_root, 'db', 'redis'))
 
 
 class PostgresInstallScript(ShellScript):
