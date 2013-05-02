@@ -17,7 +17,10 @@ class DependenciesInstallScript(ShellScript):
 
 	@classmethod
 	def get_script(cls):
-		return 'apt-get install -y %s' % ' '.join(cls._dependencies)
+		return '''
+			apt-get update
+			apt-get install -y %s
+		''' % ' '.join(cls._dependencies)
 
 
 class CircusInstallScript(ShellScript):

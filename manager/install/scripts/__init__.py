@@ -4,6 +4,7 @@ from jgit import JgitInstallScript
 from openssh import OpenSshInstallScript, OpenSshConfigureScript, OpenSshLaunchScript
 from platform import PlatformRabbitmqInstallScript, PlatformSchemaInstallScript
 from user import Lt3UserInstallScript, GitUserInstallScript, VerificationUserInstallScript
+from web import WebInstallScript
 
 install_scripts = [
 	DependenciesInstallScript,
@@ -21,5 +22,6 @@ install_scripts = [
 	GitUserInstallScript,
 	VerificationUserInstallScript,
 	PlatformRabbitmqInstallScript,
-	PlatformSchemaInstallScript
+	PlatformSchemaInstallScript,
+	WebInstallScript
 ]

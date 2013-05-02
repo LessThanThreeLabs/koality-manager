@@ -10,6 +10,7 @@ class PlatformPackageScript(ShellScript):
 		return '''
 			pip install virtualenv
 			virtualenv %s --no-site-packages
+			virtualenv %s --relocatable
 			cd /tmp
 			git clone git@github.com:LessThanThreeLabs/agles.git
 			cp agles/ci/scripts/rabbitmq_setup.sh %s
@@ -23,6 +24,7 @@ class PlatformPackageScript(ShellScript):
 			cd /tmp
 			rm -rf agles
 		''' % (virtualenv_directory,
+				virtualenv_directory,
 				dependencies_directory,
 				os.path.join(conf_directory, 'redis'),
 				os.path.join(conf_directory, 'redis'),

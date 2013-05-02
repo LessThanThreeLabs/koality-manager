@@ -18,57 +18,67 @@ class Runner(object):
 			# REDIS
 			Watcher(
 				name='redis-repostore',
-				cmd='/usr/local/bin/redis-server',
+				cmd='redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'filesystem_repo_server_redis.conf')],
 				working_dir=koality_root,
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_repostore_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'redis_repostore_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
+				copy_env=True,
+				copy_path=True,
 				priority=0
 			),
 			Watcher(
 				name='redis-sessionStore',
-				cmd='/usr/local/bin/redis-server',
+				cmd='redis-server',
 				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'sessionStoreRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_sessionStore_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'redis_sessionStore_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
+				copy_env=True,
+				copy_path=True,
 				priority=0
 			),
 			Watcher(
 				name='redis-createAccount',
-				cmd='/usr/local/bin/redis-server',
+				cmd='redis-server',
 				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'createAccountRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_createAccount_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'redis_createAccount_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
+				copy_env=True,
+				copy_path=True,
 				priority=0
 			),
 			Watcher(
 				name='redis-createRepository',
-				cmd='/usr/local/bin/redis-server',
+				cmd='redis-server',
 				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'createRepositoryRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_createRepository_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'redis_createRepository_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
+				copy_env=True,
+				copy_path=True,
 				priority=0
 			),
 			# HAPROXY
 			Watcher(
 				name='haproxy',
-				cmd='/usr/local/sbin/haproxy',
+				cmd='haproxy',
 				args=['-f', os.path.join(conf_directory, 'haproxy', 'haproxy.conf')],
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'haproxy_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'haproxy_stderr.log')},
 				uid=root[2],
 				gid=root[3],
+				copy_env=True,
+				copy_path=True,
 				priority=0
 			),
 			# PLATFORM
@@ -81,6 +91,8 @@ class Runner(object):
 				uid=lt3[2],
 				gid=lt3[3],
 				env={'HOME': lt3[5]},
+				copy_env=True,
+				copy_path=True,
 				priority=1
 			),
 			Watcher(
@@ -93,6 +105,8 @@ class Runner(object):
 				uid=verification[2],
 				gid=verification[3],
 				env={'HOME': verification[5]},
+				copy_env=True,
+				copy_path=True,
 				priority=2
 			),
 			Watcher(
@@ -105,6 +119,8 @@ class Runner(object):
 				uid=verification[2],
 				gid=verification[3],
 				env={'HOME': verification[5]},
+				copy_env=True,
+				copy_path=True,
 				priority=2
 			),
 			Watcher(
@@ -116,6 +132,8 @@ class Runner(object):
 				uid=git[2],
 				gid=git[3],
 				env={'HOME': git[5]},
+				copy_env=True,
+				copy_path=True,
 				priority=2
 			),
 			# WEB SERVER
@@ -129,6 +147,8 @@ class Runner(object):
 				uid=lt3[2],
 				gid=lt3[3],
 				env={'HOME': lt3[5]},
+				copy_env=True,
+				copy_path=True,
 				priority=2
 			),
 			# API SERVER
@@ -142,6 +162,8 @@ class Runner(object):
 				uid=lt3[2],
 				gid=lt3[3],
 				env={'HOME': lt3[5]},
+				copy_env=True,
+				copy_path=True,
 				priority=2
 			)
 		]
