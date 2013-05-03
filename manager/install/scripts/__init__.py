@@ -2,7 +2,7 @@ from dependencies import DependenciesInstallScript, CircusInstallScript, JavaIns
 from dependencies import RabbitmqInstallScript, RedisInstallScript, PostgresInstallScript
 from jgit import JgitInstallScript
 from openssh import OpenSshInstallScript, OpenSshConfigureScript, OpenSshLaunchScript
-from platform import PlatformRabbitmqInstallScript, PlatformSchemaInstallScript
+from platform import PlatformRabbitmqInstallScript, PlatformSchemaInstallScript, PlatformPythonLinkScript
 from user import Lt3UserInstallScript, GitUserInstallScript, VerificationUserInstallScript
 from web import WebInstallScript
 
@@ -23,5 +23,6 @@ install_scripts = [
 	VerificationUserInstallScript,
 	PlatformRabbitmqInstallScript,
 	PlatformSchemaInstallScript,
+	PlatformPythonLinkScript,
 	WebInstallScript
 ]
