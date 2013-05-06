@@ -46,17 +46,14 @@ class WebPackageScript(ShellScript):
 			nvm install 0.8.12
 			nvm use 0.8.12
 			npm install -g iced-coffee-script
-			npm install -g grunt-cli
-			cd node
 			wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz
 			tar -xvf koality-webserver-0.1.0.tgz
 			rm koality-webserver-0.1.0.tgz
 			mv package webserver
 			cd webserver
 			npm install
-			grunt production
 			chmod -R a+w redis
-			rm -rf **/package.json
+			find -name package.json | xargs rm
 		''' % (node_directory,
 				node_directory,
 				nvm_directory,
