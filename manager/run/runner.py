@@ -151,21 +151,6 @@ class Runner(object):
 				copy_path=True,
 				priority=2
 			),
-			# API SERVER
-			Watcher(
-				name='api-server',
-				cmd=os.path.join(nvm_directory, 'v0.8.12', 'bin', 'node'),
-				args=['--harmony', os.path.join(node_directory, 'api-server', 'libs', 'index.js'), '--httpsPort', '1337', '--mode', 'production'],
-				working_dir=os.path.join(node_directory, 'api-server'),
-				stdout_stream={'filename': os.path.join(koality_root, 'log', 'api_server_stdout.log')},
-				stderr_stream={'filename': os.path.join(koality_root, 'log', 'api_server_stderr.log')},
-				uid=lt3[2],
-				gid=lt3[3],
-				env={'HOME': lt3[5]},
-				copy_env=True,
-				copy_path=True,
-				priority=2
-			)
 		]
 
 	def _python_bin(self, bin_name):

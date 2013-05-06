@@ -48,21 +48,17 @@ class WebPackageScript(ShellScript):
 			npm install -g iced-coffee-script
 			npm install -g grunt-cli
 			cd node
-			git clone git@github.com:LessThanThreeLabs/koality-webserver.git webserver
+			wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz
+			tar -xvf koality-webserver-0.1.0.tgz
+			rm koality-webserver-0.1.0.tgz
+			mv package webserver
 			cd webserver
 			npm install
 			grunt production
 			chmod -R a+w redis
-			rm -rf src front/src front/test .git
-			cd %s
-			git clone git@github.com:LessThanThreeLabs/koality-api-server.git api-server
-			cd api-server
-			npm install
-			./compile
-			rm -rf src .git
+			rm -rf **/package.json
 		''' % (node_directory,
 				node_directory,
 				nvm_directory,
 				nvm_directory,
-				os.path.join(nvm_directory, 'nvm.sh'),
-				node_directory)
+				os.path.join(nvm_directory, 'nvm.sh'))
