@@ -35,19 +35,3 @@ class OpenSshConfigureScript(ShellScript):
 				sed -i.bak -r 's/^AllowUsers .*$/AllowUsers lt3 git ubuntu/g' /etc/ssh/sshd_config
 			fi
 		''' % os.path.join(python_bin_directory, 'koality-authorized-keys-script')
-
-
-class OpenSshLaunchScript(ShellScript):
-	_move_standard_daemon_script = '''
-		service ssh stop
-		/usr/sbin/sshd -p 2222
-	'''
-
-	_start_modified_daemon_script = '/usr/local/sbin/sshd -f /usr/local/etc/sshd_config'
-
-	@classmethod
-	def get_script(cls):
-		return '\n'.join((
-			cls._move_standard_daemon_script,
-			cls._start_modified_daemon_script
-		))

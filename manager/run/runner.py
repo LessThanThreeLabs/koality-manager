@@ -5,14 +5,18 @@ from circus.arbiter import Arbiter
 from circus.watcher import Watcher
 
 from manager.shared import conf_directory, koality_root, node_directory, nvm_directory, python_bin_directory
+from manager.shared.script import ShellScript
 
 
 class Runner(object):
 	def __init__(self):
-		git = pwd.getpwnam('git')
-		lt3 = pwd.getpwnam('lt3')
-		root = pwd.getpwnam('root')
-		verification = pwd.getpwnam('verification')
+		try:
+			git = pwd.getpwnam('git')
+			lt3 = pwd.getpwnam('lt3')
+			root = pwd.getpwnam('root')
+			verification = pwd.getpwnam('verification')
+		except:
+			raise Exception("Koality must be installed before it can be run")
 
 		self._watchers = [
 			# REDIS
@@ -157,8 +161,26 @@ class Runner(object):
 		return os.path.join(python_bin_directory, bin_name)
 
 	def run(self):
+		if not Runner.OpenSshLaunchScript.run():
+			raise Exception('''Could not launch openssh daemon.
+				Check your system before logging out or this machine may become inaccessible.''')
 		arbiter = Arbiter(self._watchers, 'tcp://127.0.0.1:5555', 'tcp://127.0.0.1:5556', debug=True)
 		try:
 			arbiter.start()
 		finally:
 			arbiter.stop()
+
+	class OpenSshLaunchScript(ShellScript):
+		_move_standard_daemon_script = '''
+			service ssh stop
+			/usr/sbin/sshd -p 2222
+		'''
+
+		_start_modified_daemon_script = '/usr/local/sbin/sshd -f /usr/local/etc/sshd_config'
+
+		@classmethod
+		def get_script(cls):
+			return '\n'.join((
+				cls._move_standard_daemon_script,
+				cls._start_modified_daemon_script
+			))

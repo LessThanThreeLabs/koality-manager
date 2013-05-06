@@ -1,7 +1,13 @@
 import subprocess
 
 
-class ShellScript(object):
+class Script(object):
+	@classmethod
+	def run(cls):
+		return NotImplementedError()
+
+
+class ShellScript(Script):
 	@classmethod
 	def run(cls):
 		return subprocess.call(['bash', '-c', cls.get_script()]) == 0

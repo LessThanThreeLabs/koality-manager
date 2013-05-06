@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+# Koality service
+#
+# chkconfig: - 95 05
+# description: Never break a build again
+#
+
+### BEGIN INIT INFO
+# Provides:          koality
+# Required-Start:    rabbitmq-server $remote_fs
+# Required-Stop:     $remote_fs
+# Should-Stop:       rabbitmq-server
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Description:       Koality
+# Short-Description: Never break a build again
+### END INIT INFO
+
+COMMAND=$koality_command  # Filled in via template
+
+PIDFILE=/var/run/koality/pid
+
+case "$1" in
+    start)
+        if [ -f $PIDFILE ]
+        then
+                echo "$PIDFILE exists, process is already running or crashed"
+        else
+                echo "Starting Koality service..."
+                mkdir -p $(dirname $PIDFILE)
+                eval "$COMMAND &"
+                PID=$!
+                echo $PID > $PIDFILE
+        fi
+        ;;
+    stop)
+        if [ ! -f $PIDFILE ]
+        then
+                echo "$PIDFILE does not exist, process is not running"
+        else
+                PID=$(cat $PIDFILE)
+                echo "Stopping ..."
+                circusctl stop
+                kill -9 $PID
+                echo "Koality stopped"
+        fi
+        ;;
+    *)
+        echo "Please use start or stop as first argument"
+        ;;
+esac
