@@ -4,7 +4,7 @@ import sys
 
 
 def main():
-	mode = sys.argv[1]
+	mode = sys.argv[1] if len(sys.argv) > 1 else None
 	if mode == 'run':
 		from manager.run import Runner
 		Runner().run()
