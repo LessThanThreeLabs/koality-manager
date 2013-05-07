@@ -17,7 +17,7 @@
 # Short-Description: Never break a build again
 ### END INIT INFO
 
-COMMAND=$koality_command  # Filled in via template
+COMMAND='$koality_command'  # Filled in via template
 
 PIDFILE=/var/run/koality/pid
 
@@ -29,7 +29,7 @@ case "$1" in
         else
                 echo "Starting Koality service..."
                 mkdir -p $(dirname $PIDFILE)
-                eval "$COMMAND &"
+                $COMMAND &
                 PID=$!
                 echo $PID > $PIDFILE
         fi
@@ -44,6 +44,7 @@ case "$1" in
                 circusctl stop
                 kill -9 $PID
                 echo "Koality stopped"
+                rm $PIDFILE
         fi
         ;;
     *)
