@@ -26,5 +26,5 @@ class PlatformPythonLinkScript(ShellScript):
 	def get_script(cls):
 		return '''
 			mkdir -p /etc/koality/python
-			ln -s %s /etc/koality/python/bin
+			[[ -a /etc/koality/python/bin ]] || n -s %s /etc/koality/python/bin
 		''' % python_bin_directory

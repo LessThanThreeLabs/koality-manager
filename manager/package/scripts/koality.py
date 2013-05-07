@@ -1,3 +1,4 @@
+import json
 import os
 
 from manager.shared import conf_directory, dependencies_directory, node_directory, nvm_directory, python_bin_directory, virtualenv_directory
@@ -53,9 +54,24 @@ class WebPackageScript(ShellScript):
 			cd webserver
 			npm install
 			chmod -R a+w redis
-			find -name package.json | xargs rm
 		''' % (node_directory,
 				node_directory,
 				nvm_directory,
 				nvm_directory,
 				os.path.join(nvm_directory, 'nvm.sh'))
+
+
+class WebPackageCleanupScript(Script):
+	@classmethod
+	def run(cls):
+		for root, dirs, files in os.walk(os.path.join(node_directory, 'webserver')):
+			if 'package.json' in files:
+				package_path = os.path.join(root, 'package.json')
+				with open(package_path) as package_file:
+					package_config = json.load(package_file)
+				del package_config['dependencies']
+				del package_config['devDependencies']
+				del package_config['scripts']
+				with open(package_path, 'w') as package_file:
+					json.dump(package_config, package_file)
+		return True
