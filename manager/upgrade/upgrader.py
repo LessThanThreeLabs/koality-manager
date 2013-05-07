@@ -1,7 +1,7 @@
 import os
 
 from manager.install import Installer
-from manager.shared import upgrade_directory
+from manager.shared import upgrade_directory, python_bin_directory
 from manager.shared.script import ShellScript
 
 
@@ -31,8 +31,9 @@ class DatabaseMigrateScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			alembic upgrade head
-		''' % os.path.join(upgrade_directory, 'alembic')
+			%s upgrade head
+		''' % (os.path.join(upgrade_directory, 'alembic'),
+			os.path.join(python_bin_directory, 'alembic'))
 
 
 class KoalityStartupScript(ShellScript):
