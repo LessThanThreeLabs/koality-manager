@@ -2,7 +2,7 @@ import json
 import os
 
 from manager.shared import conf_directory, dependencies_directory, node_directory, nvm_directory
-from manager.shared import python_bin_directory, upgprade_directory, virtualenv_directory
+from manager.shared import python_bin_directory, upgrade_directory, virtualenv_directory
 from manager.shared.script import Script, ShellScript
 
 
