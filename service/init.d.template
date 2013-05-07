@@ -21,7 +21,7 @@ COMMAND='$koality_command'  # Filled in via template
 
 PIDFILE=/var/run/koality/pid
 
-function start_koality () {
+start_koality () {
 	if [ -f $PIDFILE ]; then
 		echo "$PIDFILE exists, process is already running or crashed"
 	else
@@ -33,7 +33,7 @@ function start_koality () {
 	fi
 }
 
-function stop_koality () {
+stop_koality () {
 	if [ ! -f $PIDFILE ]; then
 		echo "$PIDFILE does not exist, process is not running"
 	else
@@ -46,7 +46,7 @@ function stop_koality () {
 	fi
 }
 
-function restart_koality () {
+restart_koality () {
 	stop_koality
 	start_koality
 }
