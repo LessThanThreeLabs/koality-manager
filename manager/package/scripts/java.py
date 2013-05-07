@@ -7,6 +7,8 @@ class JavaPackageScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			git clone git://github.com/flexiondotorg/oab-java6.git java
-			rm -rf java/.git
+			if [ ! -d java ]; then
+				git clone git://github.com/flexiondotorg/oab-java6.git java
+				rm -rf java/.git
+			fi
 		''' % dependencies_directory

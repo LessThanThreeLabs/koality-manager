@@ -7,8 +7,10 @@ class RedisPackageScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			wget http://redis.googlecode.com/files/redis-2.6.10.tar.gz
-			tar xzf redis-2.6.10.tar.gz
-			mv redis-2.6.10 redis
-			rm redis-2.6.10.tar.gz
+			if [ ! -d redis ]; then
+				wget http://redis.googlecode.com/files/redis-2.6.10.tar.gz
+				tar xzf redis-2.6.10.tar.gz
+				mv redis-2.6.10 redis
+				rm redis-2.6.10.tar.gz
+			fi
 		''' % dependencies_directory

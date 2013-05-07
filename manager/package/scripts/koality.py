@@ -11,6 +11,9 @@ class PlatformPackageScript(ShellScript):
 	def get_script(cls):
 		return '''
 			pip install virtualenv
+			if [ -d %s ]; then
+				%s uninstall koality
+			fi
 			virtualenv %s --no-site-packages
 			cd /tmp
 			git clone git@github.com:LessThanThreeLabs/agles.git
@@ -26,6 +29,8 @@ class PlatformPackageScript(ShellScript):
 			cd /tmp
 			rm -rf agles
 		''' % (virtualenv_directory,
+				os.path.join(python_bin_directory, 'pip'),
+				virtualenv_directory,
 				dependencies_directory,
 				os.path.join(conf_directory, 'redis'),
 				os.path.join(conf_directory, 'redis'),
@@ -48,6 +53,7 @@ class WebPackageScript(ShellScript):
 			nvm install 0.8.12
 			nvm use 0.8.12
 			npm install -g iced-coffee-script
+			rm -rf webserver
 			wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz
 			tar -xvf koality-webserver-0.1.0.tgz
 			rm koality-webserver-0.1.0.tgz

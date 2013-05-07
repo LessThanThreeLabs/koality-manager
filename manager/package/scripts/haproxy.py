@@ -7,8 +7,10 @@ class HaproxyPackageScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			wget http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev17.tar.gz
-			tar -xf haproxy-1.5-dev17.tar.gz
-			rm haproxy-1.5-dev17.tar.gz
-			mv haproxy-1.5-dev17 haproxy
+			if [ ! -d haproxy ]; then
+				wget http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev17.tar.gz
+				tar -xf haproxy-1.5-dev17.tar.gz
+				rm haproxy-1.5-dev17.tar.gz
+				mv haproxy-1.5-dev17 haproxy
+			fi
 		''' % dependencies_directory
