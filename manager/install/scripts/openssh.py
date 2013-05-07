@@ -20,6 +20,7 @@ class OpenSshInstallScript(ShellScript):
 class OpenSshConfigureScript(ShellScript):
 	@classmethod
 	def get_script(cls):
+		authorized_keys_script = os.path.join(python_bin_directory, 'koality-authorized-keys-script')
 		return '''
 			cd /usr/local/etc
 			grep "AuthorizedKeysScript" sshd_config
@@ -33,5 +34,8 @@ class OpenSshConfigureScript(ShellScript):
 				echo "PasswordAuthentication no" >> sshd_config
 				echo "AllowUsers git" >> sshd_config
 				sed -i.bak -r 's/^AllowUsers .*$/AllowUsers lt3 git ubuntu/g' /etc/ssh/sshd_config
+			else
+				sed -i.bak -r 's/^AuthorizedKeysScript.*/AuthorizedKeysScript %s/g' /usr/local/etc/sshd_config
 			fi
-		''' % os.path.join(python_bin_directory, 'koality-authorized-keys-script')
+		''' % (authorized_keys_script,
+			authorized_keys_script)

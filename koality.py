@@ -1,29 +1,24 @@
 #!/usr/bin/env python
 
-import argparse
+import sys
 
 
 def main():
-	parser = argparse.ArgumentParser()
-	parser.add_argument('-r', '--run', action='store_true',
-		help='Runs koality')
-	parser.add_argument('-i', '--install', action='store_true',
-		help='Installs koality from scratch')
-	parser.add_argument('-u', '--upgrade', action='store_true',
-		help='Upgrades koality from a previous version')
-	args = parser.parse_args()
-
-	if args.run:
+	mode = sys.argv[1]
+	if mode == 'run':
 		from manager.run import Runner
 		Runner().run()
-	elif args.install:
+	elif mode == 'install':
 		from manager.install import Installer
 		Installer().run()
-	elif args.upgrade:
+	elif mode == 'upgrade':
 		from manager.upgrade import Upgrader
 		Upgrader().run()
+	elif mode == 'package':
+		from manager.package import Packager
+		Packager().run()
 	else:
-		raise Exception('No valid mode specified')
+		raise Exception('No valid mode specified. Must be "run", "install", or "upgrade"')
 
 
 if __name__ == '__main__':

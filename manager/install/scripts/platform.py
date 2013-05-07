@@ -19,12 +19,3 @@ class PlatformSchemaInstallScript(ShellScript):
 			sudo -u postgres psql -c "grant all privileges on database koality to lt3"
 			sudo -u lt3 %s
 		''' % os.path.join(python_bin_directory, 'koality-schema')
-
-
-class PlatformPythonLinkScript(ShellScript):
-	@classmethod
-	def get_script(cls):
-		return '''
-			mkdir -p /etc/koality/python
-			[[ -a /etc/koality/python/bin ]] || ln -s %s /etc/koality/python/bin
-		''' % python_bin_directory

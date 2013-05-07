@@ -1,9 +1,9 @@
 from dependencies import DependenciesInstallScript, CircusInstallScript, JavaInstallScript, HaproxyInstallScript
 from dependencies import RabbitmqInstallScript, RedisInstallScript, PostgresInstallScript
 from jgit import JgitInstallScript
-from koality import KoalityServiceInstallScript
+from koality import KoalityLinkScript, KoalityServiceInstallScript
 from openssh import OpenSshInstallScript, OpenSshConfigureScript
-from platform import PlatformRabbitmqInstallScript, PlatformSchemaInstallScript, PlatformPythonLinkScript
+from platform import PlatformRabbitmqInstallScript, PlatformSchemaInstallScript
 from user import Lt3UserInstallScript, GitUserInstallScript, VerificationUserInstallScript
 from web import WebInstallScript
 
@@ -23,7 +23,7 @@ install_scripts = [
 	VerificationUserInstallScript,
 	PlatformRabbitmqInstallScript,
 	PlatformSchemaInstallScript,
-	PlatformPythonLinkScript,
 	WebInstallScript,
+	KoalityLinkScript,
 	KoalityServiceInstallScript
 ]
