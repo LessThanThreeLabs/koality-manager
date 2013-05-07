@@ -21,33 +21,47 @@ COMMAND='$koality_command'  # Filled in via template
 
 PIDFILE=/var/run/koality/pid
 
+function start_koality () {
+	if [ -f $PIDFILE ]; then
+		echo "$PIDFILE exists, process is already running or crashed"
+	else
+		echo "Starting Koality service..."
+		mkdir -p $(dirname $PIDFILE)
+		$COMMAND &
+		PID=$!
+		echo $PID > $PIDFILE
+	fi
+}
+
+function stop_koality () {
+	if [ ! -f $PIDFILE ]; then
+		echo "$PIDFILE does not exist, process is not running"
+	else
+		PID=$(cat $PIDFILE)
+		echo "Stopping ..."
+		circusctl stop
+		kill -9 $PID
+		echo "Koality stopped"
+		rm $PIDFILE
+	fi
+}
+
+function restart_koality () {
+	stop_koality
+	start_koality
+}
+
 case "$1" in
-    start)
-        if [ -f $PIDFILE ]
-        then
-                echo "$PIDFILE exists, process is already running or crashed"
-        else
-                echo "Starting Koality service..."
-                mkdir -p $(dirname $PIDFILE)
-                $COMMAND &
-                PID=$!
-                echo $PID > $PIDFILE
-        fi
-        ;;
-    stop)
-        if [ ! -f $PIDFILE ]
-        then
-                echo "$PIDFILE does not exist, process is not running"
-        else
-                PID=$(cat $PIDFILE)
-                echo "Stopping ..."
-                circusctl stop
-                kill -9 $PID
-                echo "Koality stopped"
-                rm $PIDFILE
-        fi
-        ;;
-    *)
-        echo "Please use start or stop as first argument"
-        ;;
+	start)
+		start_koality
+		;;
+	stop)
+		stop_koality
+		;;
+	restart)
+		restart_koality
+		;;
+	*)
+		echo "Please use start, stop, or restart as first argument"
+		;;
 esac

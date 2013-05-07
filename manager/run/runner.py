@@ -131,6 +131,7 @@ class Runner(object):
 				name='filesystem_repo_server',
 				cmd=self._python_bin('koality-start-filesystem-repo-server'),
 				args=['-r', '/git/repositories'],
+				working_dir='/git',
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'filesystem_repo_server_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'filesystem_repo_server_stderr.log')},
 				uid=git[2],
