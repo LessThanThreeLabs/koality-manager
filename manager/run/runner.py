@@ -145,7 +145,7 @@ class Runner(object):
 			Watcher(
 				name='webserver',
 				cmd=os.path.join(nvm_directory, 'v0.8.12', 'bin', 'node'),
-				args=['--harmony', os.path.join(node_directory, 'webserver', 'libs', 'index.js'), '--httpsPort', '10443', '--mode', 'production'],
+				args=['--harmony', os.path.join(node_directory, 'webserver', 'libs', 'index.js'), '--httpPort', '1080', '--mode', 'production'],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'webserver_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'webserver_stderr.log')},
