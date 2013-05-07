@@ -35,7 +35,7 @@ class OpenSshConfigureScript(ShellScript):
 				echo "AllowUsers git" >> sshd_config
 				sed -i.bak -r 's/^AllowUsers .*$/AllowUsers lt3 git ubuntu/g' /etc/ssh/sshd_config
 			else
-				sed -i.bak -r 's/^AuthorizedKeysScript.*/AuthorizedKeysScript %s/g' /usr/local/etc/sshd_config
+				sed -i.bak -r 's!^AuthorizedKeysScript.*!AuthorizedKeysScript %s!g' sshd_config
 			fi
 		''' % (authorized_keys_script,
 			authorized_keys_script)
