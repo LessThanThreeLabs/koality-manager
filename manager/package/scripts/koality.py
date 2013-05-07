@@ -12,7 +12,7 @@ class PlatformPackageScript(ShellScript):
 		return '''
 			pip install virtualenv
 			if [ -d %s ]; then
-				%s uninstall koality
+				%s uninstall -y koality
 			fi
 			virtualenv %s --no-site-packages
 			cd /tmp
@@ -22,7 +22,7 @@ class PlatformPackageScript(ShellScript):
 			mkdir -p %s
 			cp conf/redis/* %s
 			mkdir -p %s
-			cp alembic* %s
+			cp -r alembic* %s
 			%s install -r requirements.txt
 			%s setup.py install
 			virtualenv %s --relocatable
@@ -50,8 +50,8 @@ class WebPackageScript(ShellScript):
 			mkdir -p %s
 			wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh
 			source %s
-			nvm install 0.8.12
-			nvm use 0.8.12
+			nvm install v0.8.12
+			nvm use v0.8.12
 			npm install -g iced-coffee-script
 			rm -rf webserver
 			wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz
