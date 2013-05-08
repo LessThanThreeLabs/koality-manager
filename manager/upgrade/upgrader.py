@@ -31,7 +31,7 @@ class DatabaseMigrateScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			%s upgrade head
+			sudo -u lt3 %s upgrade head
 		''' % (os.path.join(upgrade_directory, 'alembic'),
 			os.path.join(python_bin_directory, 'alembic'))
 

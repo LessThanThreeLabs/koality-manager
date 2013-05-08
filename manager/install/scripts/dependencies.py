@@ -1,6 +1,6 @@
 import os
 
-from manager.shared import koality_root, dependencies_directory
+from manager.shared import koality_root, conf_directory, dependencies_directory
 from manager.shared.script import ShellScript
 
 
@@ -55,7 +55,7 @@ class HaproxyInstallScript(ShellScript):
 			cd %s
 			sed -i.bak -r 's!( crt ).+( ciphers )!\\1%s\\2!g' haproxy.conf
 		''' % (os.path.join(dependencies_directory, 'haproxy'),
-				os.path.join(conf_directory, 'haproxy', 'cert'),
+				os.path.join(conf_directory, 'haproxy'),
 				os.path.join(conf_directory, 'haproxy', 'cert', 'server.pem'))
 
 
