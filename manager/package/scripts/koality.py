@@ -25,6 +25,8 @@ class PlatformPackageScript(ShellScript):
 			cp -r alembic* %s
 			%s install -r requirements.txt
 			%s setup.py install
+			python -O -m compileall %s
+			find -name '*.py' %s | xargs rm
 			virtualenv %s --relocatable
 			cd /tmp
 			rm -rf agles
@@ -38,6 +40,7 @@ class PlatformPackageScript(ShellScript):
 				os.path.join(upgrade_directory, 'alembic'),
 				os.path.join(python_bin_directory, 'pip'),
 				os.path.join(python_bin_directory, 'python'),
+				os.path.join(virtualenv_directory, 'lib'),
 				virtualenv_directory)
 
 
