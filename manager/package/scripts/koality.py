@@ -60,7 +60,6 @@ class WebPackageScript(ShellScript):
 			mv package webserver
 			cd webserver
 			mkdir -p %s
-			sed -i.bak -r 's!( crt ).+( ciphers )!\\1%s\\2!g' haproxy.conf
 			cp haproxy.conf %s
 			npm install
 			chmod -R a+w redis
@@ -69,7 +68,6 @@ class WebPackageScript(ShellScript):
 				nvm_directory,
 				nvm_directory,
 				os.path.join(nvm_directory, 'nvm.sh'),
-				os.path.join(conf_directory, 'haproxy', 'cert'),
 				os.path.join(conf_directory, 'haproxy', 'cert'),
 				os.path.join(conf_directory, 'haproxy'))
 

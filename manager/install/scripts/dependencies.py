@@ -52,7 +52,11 @@ class HaproxyInstallScript(ShellScript):
 				make clean
 				make install USE_OPENSSL=1 -j 4
 			fi
-		''' % os.path.join(dependencies_directory, 'haproxy')
+			cd %s
+			sed -i.bak -r 's!( crt ).+( ciphers )!\\1%s\\2!g' haproxy.conf
+		''' % (os.path.join(dependencies_directory, 'haproxy'),
+				os.path.join(conf_directory, 'haproxy', 'cert'),
+				os.path.join(conf_directory, 'haproxy', 'cert'))
 
 
 class RabbitmqInstallScript(ShellScript):
