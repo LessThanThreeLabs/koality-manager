@@ -165,6 +165,8 @@ class Runner(object):
 		if not Runner.OpenSshLaunchScript.run():
 			raise Exception('''Could not launch openssh daemon.
 				Check your system before logging out or this machine may become inaccessible.''')
+		if not Runner.HaproxyCertGenerationScript.run():
+			raise Exception('Could not verify or create openssl certificate')
 		arbiter = Arbiter(self._watchers, 'tcp://127.0.0.1:5555', 'tcp://127.0.0.1:5556', debug=True)
 		try:
 			arbiter.start()
@@ -173,7 +175,7 @@ class Runner(object):
 
 	class OpenSshLaunchScript(ShellScript):
 		_move_standard_daemon_script = '''
-			service ssh stop
+			service ssh stop 2> /dev/null
 			/usr/sbin/sshd -p 2222
 		'''
 
@@ -185,3 +187,18 @@ class Runner(object):
 				cls._move_standard_daemon_script,
 				cls._start_modified_daemon_script
 			))
+
+	class HaproxyCertGenerationScript(ShellScript):
+		@classmethod
+		def get_script(cls):
+			cert_directory = os.path.join(conf_directory, 'haproxy', 'cert')
+			return '''
+				if [ ! -f %s ]; then
+					mkdir -p %s
+					cd %s
+					openssl req -nodes -newkey rsa:2048 -keyout private.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"
+					openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+				fi
+			''' % (os.path.join(cert_directory, 'server.crt'),
+					cert_directory,
+					cert_directory)
