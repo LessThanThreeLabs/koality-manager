@@ -196,9 +196,11 @@ class Runner(object):
 				if [ ! -f %s ]; then
 					mkdir -p %s
 					cd %s
-					openssl req -nodes -newkey rsa:2048 -keyout private.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"
+					rm -f *
+					openssl req -nodes -newkey rsa:2048 -keyout server.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"
 					openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+					cat server.key server.crt > server.pem
 				fi
-			''' % (os.path.join(cert_directory, 'server.crt'),
+			''' % (os.path.join(cert_directory, 'server.pem'),
 					cert_directory,
 					cert_directory)
