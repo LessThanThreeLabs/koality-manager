@@ -7,4 +7,4 @@ from manager.shared.script import ShellScript
 class JgitInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return 'cp %s /usr/bin' % os.path.join(dependencies_directory, 'jgit')
+		return 'cp %s /usr/bin' % os.path.join(dependencies_directory, 'jgit', 'jgit')

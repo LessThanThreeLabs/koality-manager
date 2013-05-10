@@ -13,8 +13,9 @@ class PlatformPackageScript(ShellScript):
 			pip install virtualenv
 			if [ -d %s ]; then
 				%s uninstall -y koality
+			else
+				virtualenv %s --no-site-packages
 			fi
-			virtualenv %s --no-site-packages
 			cd /tmp
 			git clone git@github.com:LessThanThreeLabs/agles.git
 			cp agles/ci/scripts/rabbitmq_setup.sh %s
@@ -41,6 +42,7 @@ class PlatformPackageScript(ShellScript):
 				os.path.join(python_bin_directory, 'pip'),
 				os.path.join(python_bin_directory, 'python'),
 				os.path.join(virtualenv_directory, 'lib'),
+				os.path.join(virtualenv_directory, 'lib'),
 				virtualenv_directory)
 
 
@@ -51,7 +53,9 @@ class WebPackageScript(ShellScript):
 			mkdir -p %s
 			cd %s
 			mkdir -p %s
-			wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh
+			if [ ! -f %s ]; then
+				wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh
+			fi
 			source %s
 			nvm install v0.8.12
 			nvm use v0.8.12
@@ -69,6 +73,7 @@ class WebPackageScript(ShellScript):
 		''' % (node_directory,
 				node_directory,
 				nvm_directory,
+				os.path.join(nvm_directory, 'nvm.sh'),
 				nvm_directory,
 				os.path.join(nvm_directory, 'nvm.sh'),
 				os.path.join(conf_directory, 'haproxy', 'cert'),
