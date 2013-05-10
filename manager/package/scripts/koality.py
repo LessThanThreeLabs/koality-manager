@@ -60,12 +60,14 @@ class WebPackageScript(ShellScript):
 			nvm install v0.8.12
 			nvm use v0.8.12
 			npm install -g iced-coffee-script
+			mv %s /tmp/webserver
 			rm -rf webserver
 			wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz
 			tar -xvf koality-webserver-0.1.0.tgz
 			rm koality-webserver-0.1.0.tgz
 			mv package webserver
 			cd webserver
+			mv /tmp/webserver node_modules
 			mkdir -p %s
 			cp haproxy.conf %s
 			npm install
@@ -76,6 +78,7 @@ class WebPackageScript(ShellScript):
 				os.path.join(nvm_directory, 'nvm.sh'),
 				nvm_directory,
 				os.path.join(nvm_directory, 'nvm.sh'),
+				os.path.join(node_directory, 'webserver', 'node_modules'),
 				os.path.join(conf_directory, 'haproxy', 'cert'),
 				os.path.join(conf_directory, 'haproxy'))
 
