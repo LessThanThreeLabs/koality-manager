@@ -26,7 +26,7 @@ class PlatformPackageScript(ShellScript):
 			cp -r alembic* %s
 			%s install -r requirements.txt
 			%s setup.py install
-			python -O -m compileall %s
+			python -m compileall %s
 			find %s -name '*.py' | xargs rm
 			virtualenv %s --relocatable
 			cd /tmp
