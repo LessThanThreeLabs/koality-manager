@@ -17,7 +17,7 @@ class JgitPackageScript(ShellScript):
 			if [ -f %s ] && [ "$(cat %s)" == "$headsha" ]; then
 				echo "Newest jgit already packaged"
 			else
-				mvn install
+				mvn install -Dmaven.test.skip=true
 				mkdir -p %s
 				mv org.eclipse.jgit.pgm/target/jgit %s
 				echo $headsha > %s

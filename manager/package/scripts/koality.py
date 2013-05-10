@@ -27,7 +27,7 @@ class PlatformPackageScript(ShellScript):
 			%s install -r requirements.txt
 			%s setup.py install
 			python -O -m compileall %s
-			find -name '*.py' %s | xargs rm
+			find %s -name '*.py' | xargs rm
 			virtualenv %s --relocatable
 			cd /tmp
 			rm -rf agles
