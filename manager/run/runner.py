@@ -4,7 +4,7 @@ import pwd
 from circus.arbiter import Arbiter
 from circus.watcher import Watcher
 
-from manager.shared import conf_directory, koality_root, node_directory, nvm_directory, python_bin_directory
+from manager.shared import conf_directory, dependencies_directory, koality_root, node_directory, nvm_directory, python_bin_directory
 from manager.shared.script import ShellScript
 
 
@@ -162,6 +162,10 @@ class Runner(object):
 		return os.path.join(python_bin_directory, bin_name)
 
 	def run(self):
+		if not Runner.TmpDirCreationScript.run():
+			raise Exception('/tmp appears to be inaccessible.')
+		if not Runner.RabbitmqSetupScript.run():
+			raise Exception('Unable to configure rabbitmq.')
 		if not Runner.OpenSshLaunchScript.run():
 			raise Exception('''Could not launch openssh daemon.
 				Check your system before logging out or this machine may become inaccessible.''')
@@ -172,6 +176,19 @@ class Runner(object):
 			arbiter.start()
 		finally:
 			arbiter.stop()
+
+	class TmpDirCreationScript(ShellScript):
+		@classmethod
+		def get_script(cls):
+			return '''
+				mkdir -p /tmp/model_server
+				chmod 0777 /tmp/model_server
+			'''
+
+	class RabbitmqSetupScript(ShellScript):
+		@classmethod
+		def get_script(cls):
+			return os.path.join(dependencies_directory, 'rabbitmq_setup.sh')
 
 	class OpenSshLaunchScript(ShellScript):
 		_move_standard_daemon_script = '''
