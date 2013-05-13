@@ -37,5 +37,6 @@ class OpenSshConfigureScript(ShellScript):
 			else
 				sed -i.bak -r 's!^AuthorizedKeysScript.*!AuthorizedKeysScript %s!g' sshd_config
 			fi
+			sed -i.bak -r 's/.*MaxStartups.*/MaxStartups 128/g' sshd_config
 		''' % (authorized_keys_script,
 			authorized_keys_script)
