@@ -39,7 +39,7 @@ stop_koality () {
 	else
 		PID=$(cat $PIDFILE)
 		echo "Stopping ..."
-		circusctl stop
+		/usr/local/bin/circusctl stop
 		kill -9 $PID
 		echo "Koality stopped"
 		rm $PIDFILE

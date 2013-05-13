@@ -22,7 +22,7 @@ class Runner(object):
 			# REDIS
 			Watcher(
 				name='redis-repostore',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(conf_directory, 'redis', 'filesystem_repo_server_redis.conf')],
 				working_dir=koality_root,
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_repostore_stdout.log')},
@@ -35,7 +35,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='redis-sessionStore',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'sessionStoreRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_sessionStore_stdout.log')},
@@ -48,7 +48,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='redis-createAccount',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'createAccountRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_createAccount_stdout.log')},
@@ -61,7 +61,7 @@ class Runner(object):
 			),
 			Watcher(
 				name='redis-createRepository',
-				cmd='redis-server',
+				cmd='/usr/local/bin/redis-server',
 				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'createRepositoryRedis.conf')],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_createRepository_stdout.log')},
@@ -75,7 +75,7 @@ class Runner(object):
 			# HAPROXY
 			Watcher(
 				name='haproxy',
-				cmd='haproxy',
+				cmd='/usr/local/sbin/haproxy',
 				args=['-f', os.path.join(conf_directory, 'haproxy', 'haproxy.conf')],
 				stdout_stream={'filename': os.path.join(koality_root, 'log', 'haproxy_stdout.log')},
 				stderr_stream={'filename': os.path.join(koality_root, 'log', 'haproxy_stderr.log')},
