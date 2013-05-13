@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import sys
 
 from collections import OrderedDict
@@ -8,7 +9,11 @@ from collections import OrderedDict
 def main():
 	def package():
 		from manager.package import Packager
-		Packager().run()
+		parser = argparse.ArgumentParser()
+		parser.add_argument("-i", "--installable", action="store_true",
+			help="Creates an installable tar file without the packager")
+		args, unknown = parser.parse_known_args()
+		Packager().run(args.installable)
 
 	def install():
 		from manager.install import Installer
@@ -34,7 +39,7 @@ def main():
 	if not chosen_actions:
 		raise Exception('No valid actions specified. Must be in %s' % valid_actions.keys())
 
-	invalid_actions = filter(lambda action: action not in valid_actions, chosen_actions)
+	invalid_actions = filter(lambda action: action not in valid_actions and not action.startswith('-'), chosen_actions)
 	if invalid_actions:
 		raise Exception('Invalid actions %s specified. Must be in %s' % (invalid_actions, valid_actions.keys()))
 
