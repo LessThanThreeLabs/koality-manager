@@ -29,4 +29,4 @@ class KoalityServiceInstallScript(Script):
 		with open(init_path, 'w') as init_file:
 			os.chmod(init_path, 0755)
 			init_file.write(script)
-		return subprocess.call(['update-rc.d', 'koality', 'defaults']) == 0
+		return subprocess.call(['update-rc.d', 'koality', 'defaults', '60']) == 0
