@@ -35,7 +35,7 @@ class Packager(object):
 			''' % (Packager.packaged_directory,
 				koality_root,
 				Packager.packaged_directory,
-				os.path.join(Packager.packaged_directory, 'manager', 'packager'),
+				os.path.join(Packager.packaged_directory, 'manager', 'package'),
 				os.path.join(Packager.packaged_directory, '.git'))
 
 
@@ -56,7 +56,12 @@ class Packager(object):
 	class TarScript(ShellScript):
 		@classmethod
 		def get_script(cls):
-			return 'tar -czf %s %s' % (os.path.join(koality_root, os.pardir, 'koality-%s.tar.gz' % Packager.version), Packager.packaged_directory)
+			return '''
+				tar -czf %s %s
+				rm -rf %s
+			''' % (os.path.join(koality_root, os.pardir, 'koality-%s.tar.gz' % Packager.version),
+				Packager.packaged_directory,
+				Packager.packaged_directory)
 
 
 class ScriptFailedException(Exception):
