@@ -46,7 +46,7 @@ class Packager(object):
 					'#!/bin/sh',
 					'cd $(dirname $0)',
 					'oldroot=$(readlink -f /etc/koality/root)',
-					'newroot=$oldroot/../%s' % version,
+					'newroot=$oldroot/../%s' % Packager.version,
 					'mv koality $newroot',
 					'cd $newroot',
 					'sudo ./koality.py upgrade'
@@ -69,7 +69,7 @@ class Packager(object):
 				'cd %s' % os.path.join(Packager.packaged_directory, os.pardir),
 				'tar -czf %s %s' % (
 					os.path.join(koality_root, os.pardir, 'koality-%s.tar.gz' % Packager.version),
-					version
+					Packager.version
 				),
 				'rm -rf %s' % Packager.packaged_directory
 			)
