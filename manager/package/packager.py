@@ -27,16 +27,12 @@ class Packager(object):
 	class RepackageScript(ShellScript):
 		@classmethod
 		def get_script(cls):
-			return '''
-				rm -rf %s
-				cp -r %s %s
-				rm -rf %s
-				rm -rf %s
-			''' % (Packager.packaged_directory,
-				koality_root,
-				Packager.packaged_directory,
-				os.path.join(Packager.packaged_directory, 'manager', 'package'),
-				os.path.join(Packager.packaged_directory, '.git'))
+			return cls.multiline(
+				'rm -rf %s' % Packager.packaged_directory,
+				'cp -r %s %s' % (koality_root, Packager.packaged_directory),
+				'rm -rf %s' % os.path.join(Packager.packaged_directory, 'manager', 'package'),
+				'rm -rf %s' % os.path.join(Packager.packaged_directory, '.git')
+			)
 
 
 	class AddUpgradeRevertScript(Script):
@@ -56,12 +52,13 @@ class Packager(object):
 	class TarScript(ShellScript):
 		@classmethod
 		def get_script(cls):
-			return '''
-				tar -czf %s %s
-				rm -rf %s
-			''' % (os.path.join(koality_root, os.pardir, 'koality-%s.tar.gz' % Packager.version),
-				Packager.packaged_directory,
-				Packager.packaged_directory)
+			return cls.multiline(
+				'tar -czf %s %s' % (
+					os.path.join(koality_root, os.pardir, 'koality-%s.tar.gz' % Packager.version),
+					Packager.packaged_directory
+				),
+				'rm -rf %s' % Packager.packaged_directory
+			)
 
 
 class ScriptFailedException(Exception):

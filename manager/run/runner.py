@@ -208,16 +208,14 @@ class Runner(object):
 	class HaproxyCertGenerationScript(ShellScript):
 		@classmethod
 		def get_script(cls):
-			cert_directory = os.path.join(conf_directory, 'haproxy', 'cert')
-			return '''
-				if [ ! -f %s ]; then
-					mkdir -p %s
-					cd %s
-					rm -f *
-					openssl req -nodes -newkey rsa:2048 -keyout server.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"
-					openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
-					cat server.key server.crt > server.pem
-				fi
-			''' % (os.path.join(cert_directory, 'server.pem'),
-					cert_directory,
-					cert_directory)
+			cert_directory = os.path.join('/etc/', 'koality', 'cert')
+			return cls.multiline(
+				'if [ ! -f %s ]; then' % (os.path.join(cert_directory, 'server.pem'),
+				'	mkdir -p %s' % cert_directory,
+				'	cd %s' % cert_directory,
+				'	rm -f *',
+				'	openssl req -nodes -newkey rsa:2048 -keyout server.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"',
+				'	openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt',
+				'	cat server.key server.crt > server.pem',
+				'fi'
+			)

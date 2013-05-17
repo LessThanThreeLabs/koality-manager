@@ -13,5 +13,9 @@ class ShellScript(Script):
 		return subprocess.call(['bash', '-c', cls.get_script()]) == 0
 
 	@classmethod
-	def get_script(classmethod):
+	def get_script(cls):
 		raise NotImplementedError()
+
+	@classmethod
+	def multiline(cls, *lines):
+		return '\n'.join(lines)
