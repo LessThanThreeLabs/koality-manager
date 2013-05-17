@@ -210,7 +210,7 @@ class Runner(object):
 		def get_script(cls):
 			cert_directory = os.path.join('/etc/', 'koality', 'cert')
 			return cls.multiline(
-				'if [ ! -f %s ]; then' % (os.path.join(cert_directory, 'server.pem'),
+				'if [ ! -f %s ]; then' % os.path.join(cert_directory, 'server.pem'),
 				'	mkdir -p %s' % cert_directory,
 				'	cd %s' % cert_directory,
 				'	rm -f *',

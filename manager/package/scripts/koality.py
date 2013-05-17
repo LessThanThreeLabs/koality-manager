@@ -24,7 +24,7 @@ class PlatformPackageScript(ShellScript):
 			cp conf/redis/* %s
 			mkdir -p %s
 			cp -r alembic* %s
-			%s install -r requirements.txt
+			%s install -r requirements.txt --upgrade
 			%s setup.py install
 			python -m compileall %s
 			find %s -name '*.py' | xargs rm
