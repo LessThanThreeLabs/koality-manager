@@ -46,7 +46,11 @@ class Packager(object):
 					'#!/bin/sh',
 					'cd $(dirname $0)',
 					'oldroot=$(readlink -f /etc/koality/root)',
-					'newroot=$oldroot/../%s' % Packager.version,
+					'newroot=$(readlink -m $oldroot/../%s)' % Packager.version,
+					'if [ -e "$oldroot" ]; then'
+					'	rm -rf $oldroot.bak',
+					'	mv $oldroot $oldroot.bak',
+					'fi',
 					'mv koality $newroot',
 					'cd $newroot',
 					'sudo ./koality.py upgrade'
