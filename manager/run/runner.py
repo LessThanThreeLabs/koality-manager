@@ -196,7 +196,12 @@ class Runner(object):
 			/usr/sbin/sshd -p 2222
 		'''
 
-		_start_modified_daemon_script = '/usr/local/sbin/sshd -f /usr/local/etc/sshd_config'
+		_modified_daemon_command = '/usr/local/sbin/sshd -f /usr/local/etc/sshd_config'
+		# The '^' prevents pkill from killing itself (full regexp capabilities in pkill)
+		_start_modified_daemon_script = '''
+			pkill '^%s'
+			%s
+		''' % (_modified_daemon_command, _modified_daemon_command)
 
 		@classmethod
 		def get_script(cls):
