@@ -8,15 +8,15 @@ from manager.shared.script import ShellScript
 class Upgrader(object):
 	def run(self):
 		try:
-			self._run_with_exceptions([KoalityShutdownScript, DatabaseMigrateScript])
+			self._run_with_exceptions(KoalityShutdownScript)
 			Installer().run()
+			self._run_with_exceptions(DatabaseMigrateScript)
 		finally:
-			self._run_with_exceptions([KoalityStartupScript])
+			self._run_with_exceptions(KoalityStartupScript)
 
-	def _run_with_exceptions(self, scripts):
-		for script in scripts:
-			if not script.run():
-				raise ScriptFailedException(script)
+	def _run_with_exceptions(self, script):
+		if not script.run():
+			raise ScriptFailedException(script)
 		return True
 
 
