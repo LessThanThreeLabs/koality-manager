@@ -31,7 +31,14 @@ class DatabaseMigrateScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			sudo -u lt3 %s upgrade head
+			r=0
+			while [ "$r" -eq "0" ]; do
+				sudo -u lt3 %s upgrade +1
+				r=$?
+			done
+			if [ "$r" -ne "255" ]; then
+				exit $r
+			fi
 		''' % (os.path.join(upgrade_directory, 'alembic'),
 			os.path.join(python_bin_directory, 'alembic'))
 

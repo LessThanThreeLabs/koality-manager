@@ -80,6 +80,7 @@ class RedisInstallScript(ShellScript):
 			'	cd %s' % os.path.join(dependencies_directory, 'redis'),
 			'	make',
 			'	make install',
+			'	rm -f %s/*' % os.path.join(koality_root, 'db', 'redis'),
 			'	chmod a+w %s' % os.path.join(koality_root, 'db', 'redis'),
 			'fi'
 		)

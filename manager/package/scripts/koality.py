@@ -70,6 +70,7 @@ class WebPackageScript(ShellScript):
 			mkdir -p %s
 			cp haproxy.conf %s
 			npm install
+			rm -f redis/*
 			chmod -R a+w redis
 		''' % (node_directory,
 				node_directory,
