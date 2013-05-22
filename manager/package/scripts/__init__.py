@@ -2,6 +2,7 @@ from haproxy import HaproxyPackageScript
 from java import JavaPackageScript
 from jgit import JgitPackageScript
 from koality import PlatformPackageScript, WebPackageScript, WebPackageCleanupScript
+from log import LogPackageScript
 from openssh import OpenSshPackageScript
 from rabbitmq import RabbitmqPackageScript
 from redis import RedisPackageScript
@@ -16,5 +17,6 @@ package_scripts = [
 	RedisPackageScript,
 	PlatformPackageScript,
 	WebPackageScript,
-	WebPackageCleanupScript
+	WebPackageCleanupScript,
+	LogPackageScript,
 ]
