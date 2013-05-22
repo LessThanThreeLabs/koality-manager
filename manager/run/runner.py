@@ -59,19 +59,6 @@ class Runner(object):
 				copy_path=True,
 				priority=0
 			),
-			Watcher(
-				name='redis-createRepository',
-				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(node_directory, 'webserver', 'redis', 'conf', 'createRepositoryRedis.conf')],
-				working_dir=os.path.join(node_directory, 'webserver'),
-				stdout_stream={'filename': os.path.join(koality_root, 'log', 'redis_createRepository_stdout.log')},
-				stderr_stream={'filename': os.path.join(koality_root, 'log', 'redis_createRepository_stderr.log')},
-				uid=lt3[2],
-				gid=lt3[3],
-				copy_env=True,
-				copy_path=True,
-				priority=0
-			),
 			# HAPROXY
 			Watcher(
 				name='haproxy',
