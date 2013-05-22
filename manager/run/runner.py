@@ -151,8 +151,8 @@ class Runner(object):
 	def run(self):
 		if not Runner.TmpDirCreationScript.run():
 			raise Exception('/tmp appears to be inaccessible.')
-		# if not Runner.RabbitmqSetupScript.run():
-		# 	raise Exception('Unable to configure rabbitmq.')
+		if not Runner.RabbitmqSetupScript.run():
+			raise Exception('Unable to configure rabbitmq.')
 		if not Runner.OpenSshLaunchScript.run():
 			raise Exception('''Could not launch openssh daemon.
 				Check your system before logging out or this machine may become inaccessible.''')
@@ -172,10 +172,10 @@ class Runner(object):
 				chmod 0777 /tmp/model_server
 			'''
 
-	# class RabbitmqSetupScript(ShellScript):
-	# 	@classmethod
-	# 	def get_script(cls):
-	# 		return os.path.join(dependencies_directory, 'rabbitmq_setup.sh')
+	class RabbitmqSetupScript(ShellScript):
+		@classmethod
+		def get_script(cls):
+			return os.path.join(dependencies_directory, 'rabbitmq_setup.sh')
 
 	class OpenSshLaunchScript(ShellScript):
 		_move_standard_daemon_script = '''
