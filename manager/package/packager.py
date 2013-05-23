@@ -1,5 +1,3 @@
-import argparse
-
 import os
 
 from manager.shared import koality_root
@@ -24,7 +22,6 @@ class Packager(object):
 				raise ScriptFailedException(script)
 		return True
 
-
 	class RepackageScript(ShellScript):
 		@classmethod
 		def get_script(cls):
@@ -35,7 +32,6 @@ class Packager(object):
 				'rm -rf %s' % os.path.join(Packager.internal_packaged_directory, 'manager', 'package'),
 				'rm -rf %s' % os.path.join(Packager.internal_packaged_directory, '.git')
 			)
-
 
 	class AddUpgradeRevertScript(Script):
 		@classmethod
@@ -64,7 +60,6 @@ class Packager(object):
 				))
 				os.chmod(revert_script_path, 0777)
 			return True
-
 
 	class TarScript(ShellScript):
 		@classmethod

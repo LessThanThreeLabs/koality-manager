@@ -6,13 +6,14 @@ from manager.shared.script import ShellScript
 
 
 class Upgrader(object):
-	def run(self):
+	def run(self, restart=True):
 		try:
 			self._run_with_exceptions(KoalityShutdownScript)
 			Installer().run()
 			self._run_with_exceptions(DatabaseMigrateScript)
 		finally:
-			self._run_with_exceptions(KoalityStartupScript)
+			if restart:
+				self._run_with_exceptions(KoalityStartupScript)
 
 	def _run_with_exceptions(self, script):
 		if not script.run():

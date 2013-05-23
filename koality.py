@@ -13,7 +13,7 @@ def main():
 		parser.add_argument("-i", "--installable", action="store_true",
 			help="Creates an installable tar file without the packager")
 		args, unknown = parser.parse_known_args()
-		Packager().run(args.installable)
+		Packager().run(installable=args.installable)
 
 	def install():
 		from manager.install import Installer
@@ -21,7 +21,11 @@ def main():
 
 	def upgrade():
 		from manager.upgrade import Upgrader
-		Upgrader().run()
+		parser = argparse.ArgumentParser()
+		parser.add_argument("-n", "--no-restart", action="store_true",
+			help="Don't start the Koality service back up after an upgrade")
+		args, unknown = parser.parse_known_args()
+		Upgrader().run(restart=(not args.no_restart))
 
 	def run():
 		from manager.run import Runner
