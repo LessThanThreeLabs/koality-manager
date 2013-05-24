@@ -21,12 +21,12 @@ class Runner(object):
 		self._watchers = [
 			# REDIS
 			Watcher(
-				name='redis-repostore',
+				name='redis-platform',
 				cmd='/usr/local/bin/redis-server',
-				args=[os.path.join(conf_directory, 'redis', 'filesystem_repo_server_redis.conf')],
+				args=[os.path.join(conf_directory, 'redis', 'platform_redis.conf')],
 				working_dir=koality_root,
-				stdout_stream={'filename': os.path.join(log_directory, 'redis_repostore_stdout.log')},
-				stderr_stream={'filename': os.path.join(log_directory, 'redis_repostore_stderr.log')},
+				stdout_stream={'filename': os.path.join(log_directory, 'redis_platform_stdout.log')},
+				stderr_stream={'filename': os.path.join(log_directory, 'redis_platform_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
 				copy_env=True,
