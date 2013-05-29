@@ -22,29 +22,11 @@ COMMAND='$koality_command'  # Filled in via template
 PIDFILE=/var/run/koality/pid
 
 start_koality () {
-	if [ -f $PIDFILE ]; then
-		echo "$PIDFILE exists, process is already running or crashed"
-	else
-		echo "Starting Koality service..."
-		mkdir -p $(dirname $PIDFILE)
-		$COMMAND &
-		PID=$!
-		echo $PID > $PIDFILE
-		sleep 10
-	fi
+	 start-stop-daemon --start --pidfile $PIDFILE --startas $COMMAND --background --make-pidfile
 }
 
 stop_koality () {
-	if [ ! -f $PIDFILE ]; then
-		echo "$PIDFILE does not exist, process is not running"
-	else
-		PID=$(cat $PIDFILE)
-		echo "Stopping ..."
-		/usr/local/bin/circusctl stop
-		kill -9 $PID
-		echo "Koality stopped"
-		rm $PIDFILE
-	fi
+	 start-stop-daemon --stop --pidfile $PIDFILE --retry 10
 }
 
 restart_koality () {
