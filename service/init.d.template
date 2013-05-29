@@ -30,6 +30,7 @@ start_koality () {
 		$COMMAND &
 		PID=$!
 		echo $PID > $PIDFILE
+		sleep 10
 	fi
 }
 
