@@ -56,7 +56,11 @@ class Packager(object):
 			with open(revert_script_path, 'w') as revert_script:
 				revert_script.write(ShellScript.multiline(
 					'#!/bin/sh',
-					'true'
+					'koalityroot=$(readlink -f /etc/koality/root)',
+					'if [ -e "${koalityroot}.bak" ]; then',
+					'	mv "${koalityroot}.bak" "$koalityroot"',
+					'	sudo service koality restart',
+					'fi',
 				))
 				os.chmod(revert_script_path, 0777)
 			return True
