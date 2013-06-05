@@ -11,11 +11,8 @@ class PlatformPackageScript(ShellScript):
 	def get_script(cls):
 		return '''
 			pip install virtualenv
-			if [ -d %s ]; then
-				%s uninstall -y koality
-			else
-				virtualenv %s --no-site-packages
-			fi
+			rm -rf %s
+			virtualenv %s --no-site-packages
 			cd /tmp
 			git clone git@github.com:LessThanThreeLabs/agles.git
 			cp agles/ci/scripts/rabbitmq_setup.sh %s
@@ -32,7 +29,6 @@ class PlatformPackageScript(ShellScript):
 			cd /tmp
 			rm -rf agles
 		''' % (virtualenv_directory,
-				os.path.join(python_bin_directory, 'pip'),
 				virtualenv_directory,
 				dependencies_directory,
 				os.path.join(conf_directory, 'redis'),

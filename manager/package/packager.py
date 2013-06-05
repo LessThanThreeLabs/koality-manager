@@ -49,7 +49,7 @@ class Packager(object):
 					'fi',
 					'mv koality $newroot',
 					'cd $newroot',
-					'sudo ./koality.py upgrade 2>&1 | tee $(dirname $0)/upgrade.log'
+					'sudo ./koality.py upgrade > $(dirname $0)/upgrade.log 2>&1'
 				))
 				os.chmod(upgrade_script_path, 0777)
 			revert_script_path = os.path.join(Packager.packaged_directory, 'revert_script')
