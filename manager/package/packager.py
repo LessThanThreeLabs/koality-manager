@@ -43,9 +43,9 @@ class Packager(object):
 					'cd $(dirname $0)',
 					'oldroot=$(readlink -f /etc/koality/root)',
 					'newroot=$(readlink -m $oldroot/../%s)' % Packager.version,
-					'if [ -e "$oldroot" ]; then'
-					'	rm -rf $oldroot.bak',
-					'	mv $oldroot $oldroot.bak',
+					'if [ -e "$newroot" ]; then'
+					'	rm -rf $newroot.bak',
+					'	mv $newroot $newroot.bak',
 					'fi',
 					'mv koality $newroot',
 					'cd $newroot',
