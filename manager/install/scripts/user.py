@@ -1,6 +1,3 @@
-import os
-
-from manager.shared import dependencies_directory
 from manager.shared.script import ShellScript
 
 
@@ -37,4 +34,3 @@ class VerificationUserInstallScript(ShellScript):
 			mkdir -p /verification/server /verification/snapshotter
 			chown -R verification:verification /verification
 		'''
-		return os.path.join(dependencies_directory, 'rabbitmq_setup.sh')
