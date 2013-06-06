@@ -33,7 +33,7 @@ class JavaInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
-			"if [ ! -d '/usr/lib/jvm/java-6-sun' ]; then",
+			'if [ ! -d /usr/lib/jvm/java-6-sun ]; then',
 			'	cd %s' % os.path.join(dependencies_directory, 'java'),
 			'	./oab-java.sh',
 			'	add-apt-repository -y ppa:flexiondotorg/java',
@@ -64,11 +64,13 @@ class RabbitmqInstallScript(ShellScript):
 			'apt-get install -y rabbitmq-server',
 			'dpkg -i %s' % os.path.join(dependencies_directory, 'rabbitmq-server.deb'),
 			'mkdir /etc/rabbitmq/rabbitmq.conf.d',
-			'rabbitmq-plugins enable rabbitmq_management',
-			'service rabbitmq-server restart',
-			'wget --http-user=guest --http-password=guest localhost:55672/cli/rabbitmqadmin',
-			'chmod +x rabbitmqadmin',
-			'mv rabbitmqadmin /usr/local/bin/rabbitmqadmin'
+			'if [ ! -f /usr/local/bin/rabbitmqadmin ]; then',
+			'	rabbitmq-plugins enable rabbitmq_management',
+			'	service rabbitmq-server restart',
+			'	wget --http-user=guest --http-password=guest localhost:55672/cli/rabbitmqadmin',
+			'	chmod +x rabbitmqadmin',
+			'	mv rabbitmqadmin /usr/local/bin/rabbitmqadmin',
+			'fi'
 		)
 
 
