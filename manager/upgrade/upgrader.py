@@ -30,18 +30,20 @@ class KoalityShutdownScript(ShellScript):
 class DatabaseMigrateScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return '''
-			cd %s
-			r=0
-			while [ "$r" -eq "0" ]; do
-				sudo -u lt3 %s upgrade +1
-				r=$?
-			done
-			if [ "$r" -ne "255" ]; then
-				exit $r
-			fi
-		''' % (os.path.join(upgrade_directory, 'alembic'),
-			os.path.join(python_bin_directory, 'alembic'))
+		alembic_bin = os.path.join(python_bin_directory, 'alembic')
+		return cls.multiline(
+			'cd %s' % os.path.join(upgrade_directory, 'alembic'),
+			"database_version=$(%s current --head-only 2>/dev/null | awk '{print $1}')" % alembic_bin,
+			'r=0',
+			'while [ "$r" -eq "0" ]; do',
+			'	sudo -u lt3 %s upgrade +1' % alembic_bin,
+			'	r=$?',
+			'done',
+			'if [ "$r" -ne "255" ]; then',
+			'	%s downgrade $database_version' % alembic_bin,
+			'	exit $r',
+			'fi'
+		)
 
 
 class KoalityStartupScript(ShellScript):
