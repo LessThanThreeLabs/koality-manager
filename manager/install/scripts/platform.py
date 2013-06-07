@@ -18,9 +18,9 @@ class PlatformRabbitmqInstallScript(ShellScript):
 
 		return cls.multiline(
 			'mkdir -p %s' % os.path.join('/etc', 'koality', 'conf'),
-			'sed -i "" "s/password=.*/password=%s/" %s' % (rabbitmq_password, rabbitmq_setup_script),
+			'sed -i"" "s/password=.*/password=%s/" %s' % (rabbitmq_password, rabbitmq_setup_script),
 			'echo -e "rabbit_password: %s" > %s' % (rabbitmq_password, platform_rabbitmq_config_file),
-			'sed -i "" "s/\\"password\\": \\".*\\"/\\"password\\": \\"%s\\"/" %s' % (rabbitmq_password, webserver_config_file)
+			'sed -i"" "s/\\"password\\": \\".*\\"/\\"password\\": \\"%s\\"/" %s' % (rabbitmq_password, webserver_config_file)
 		)
 
 
