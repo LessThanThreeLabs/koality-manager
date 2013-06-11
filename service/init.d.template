@@ -19,10 +19,10 @@
 
 COMMAND='$koality_command'  # Filled in via template
 
-PIDFILE=/var/run/koality/pid
+PIDFILE=/var/run/koality.pid
 
 start_koality () {
-	 start-stop-daemon --start --pidfile $PIDFILE --startas $COMMAND --background --make-pidfile
+	start-stop-daemon --start --pidfile $PIDFILE --startas $COMMAND --background --make-pidfile
 }
 
 stop_koality () {
