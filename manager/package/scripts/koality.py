@@ -17,17 +17,20 @@ class PythonPackageScript(ShellScript):
 			'make',
 			'make install',
 			'cd /tmp',
-			'rm -rf python'
+			'rm -rf python',
+			'curl http://python-distribute.org/distribute_setup.py | %s' % os.path.join(dependencies_directory, 'python', 'bin', 'python'),
+			'curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | %s' % os.path.join(dependencies_directory, 'python', 'bin', 'python'),
+			'%s install virtualenv' % os.path.join(dependencies_directory, 'python', 'bin', 'pip')
 		)
 
 
 class PlatformPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
+		virtualenv_binary = os.path.join(dependencies_directory, 'python', 'bin', 'virtualenv')
 		return cls.multiline(
-			'pip install virtualenv',
 			'rm -rf %s' % virtualenv_directory,
-			'virtualenv %s --no-site-packages --python %s' % (virtualenv_directory, os.path.join(dependencies_directory, 'python')),
+			'%s %s --no-site-packages' % (virtualenv_binary, virtualenv_directory),
 			'cd /tmp',
 			'git clone git@github.com:LessThanThreeLabs/agles.git',
 			'cp agles/ci/scripts/rabbitmq_setup.sh %s' % dependencies_directory,
@@ -36,11 +39,11 @@ class PlatformPackageScript(ShellScript):
 			'cp conf/redis/* %s' % os.path.join(conf_directory, 'redis'),
 			'mkdir -p %s' % os.path.join(upgrade_directory, 'alembic'),
 			'cp -r alembic* %s' % os.path.join(upgrade_directory, 'alembic'),
-			'%s install -r requirements.txt --upgrade' % os.path.join(python_bin_directory, 'pip'),
+			'%s install -r requirements.txt' % os.path.join(python_bin_directory, 'pip'),
 			'%s setup.py install' % os.path.join(python_bin_directory, 'python'),
-			'python -m compileall %s' % os.path.join(virtualenv_directory, 'lib'),
+			'%s -m compileall %s' % (os.path.join(python_bin_directory, 'python'), os.path.join(virtualenv_directory, 'lib')),
 			"find %s -name '*.py' | xargs rm" % os.path.join(virtualenv_directory, 'lib'),
-			'virtualenv %s --relocatable' % virtualenv_directory,
+			'%s %s --relocatable' % (virtualenv_binary, virtualenv_directory),
 			'cd /tmp',
 			'rm -rf agles'
 		)
