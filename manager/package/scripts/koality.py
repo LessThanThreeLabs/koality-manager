@@ -58,6 +58,7 @@ class WebPackageScript(ShellScript):
 			'mkdir -p %s' % nvm_directory,
 			'if [ ! -f %s ]; then' % os.path.join(nvm_directory, 'nvm.sh'),
 			'  wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh' % nvm_directory,
+			'fi',
 			'source %s' % os.path.join(nvm_directory, 'nvm.sh'),
 			'nvm install v0.8.12',
 			'nvm use v0.8.12',
@@ -73,7 +74,7 @@ class WebPackageScript(ShellScript):
 			'cp haproxy.conf %s' % os.path.join(conf_directory, 'haproxy'),
 			'npm install',
 			'rm -f redis/*',
-			'chmod -R a+w redis',
+			'chmod -R a+w redis'
 		)
 
 
