@@ -6,76 +6,70 @@ from manager.shared import python_bin_directory, upgrade_directory, virtualenv_d
 from manager.shared.script import Script, ShellScript
 
 
+class PythonPackageScript(ShellScript):
+	@classmethod
+	def get_script(cls):
+		return cls.multiline(
+			'cd /tmp',
+			'git clone git@github.com:LessThanThreeLabs/python.git',
+			'cd python',
+			'./configure --prefix=%s' % os.path.join(dependencies_directory, 'python'),
+			'make',
+			'make install'
+		)
+
+
 class PlatformPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return '''
-			pip install virtualenv
-			rm -rf %s
-			virtualenv %s --no-site-packages
-			cd /tmp
-			git clone git@github.com:LessThanThreeLabs/agles.git
-			cp agles/ci/scripts/rabbitmq_setup.sh %s
-			cd agles/ci/platform
-			mkdir -p %s
-			cp conf/redis/* %s
-			mkdir -p %s
-			cp -r alembic* %s
-			%s install -r requirements.txt --upgrade
-			%s setup.py install
-			python -m compileall %s
-			find %s -name '*.py' | xargs rm
-			virtualenv %s --relocatable
-			cd /tmp
-			rm -rf agles
-		''' % (virtualenv_directory,
-				virtualenv_directory,
-				dependencies_directory,
-				os.path.join(conf_directory, 'redis'),
-				os.path.join(conf_directory, 'redis'),
-				os.path.join(upgrade_directory, 'alembic'),
-				os.path.join(upgrade_directory, 'alembic'),
-				os.path.join(python_bin_directory, 'pip'),
-				os.path.join(python_bin_directory, 'python'),
-				os.path.join(virtualenv_directory, 'lib'),
-				os.path.join(virtualenv_directory, 'lib'),
-				virtualenv_directory)
+		return cls.multiline(
+			'pip install virtualenv',
+			'rm -rf %s' % virtualenv_directory,
+			'virtualenv %s --no-site-packages --python %s' % (virtualenv_directory, os.path.join(dependencies_directory, 'python')),
+			'cd /tmp',
+			'git clone git@github.com:LessThanThreeLabs/agles.git',
+			'cp agles/ci/scripts/rabbitmq_setup.sh %s' % dependencies_directory,
+			'cd agles/ci/platform',
+			'mkdir -p %s' % os.path.join(conf_directory, 'redis'),
+			'cp conf/redis/* %s' % os.path.join(conf_directory, 'redis'),
+			'mkdir -p %s' % os.path.join(upgrade_directory, 'alembic'),
+			'cp -r alembic* %s' % os.path.join(upgrade_directory, 'alembic'),
+			'%s install -r requirements.txt --upgrade' % os.path.join(python_bin_directory, 'pip'),
+			'%s setup.py install' % os.path.join(python_bin_directory, 'python'),
+			'python -m compileall %s' % os.path.join(virtualenv_directory, 'lib'),
+			"find %s -name '*.py' | xargs rm" % os.path.join(virtualenv_directory, 'lib'),
+			'virtualenv %s --relocatable' % virtualenv_directory,
+			'cd /tmp',
+			'rm -rf agles'
+		)
 
 
 class WebPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return '''
-			mkdir -p %s
-			cd %s
-			mkdir -p %s
-			if [ ! -f %s ]; then
-				wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh
-			fi
-			source %s
-			nvm install v0.8.12
-			nvm use v0.8.12
-			npm install -g iced-coffee-script
-			rm -rf webserver
-			wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz
-			tar -xvf koality-webserver-0.1.0.tgz
-			rm koality-webserver-0.1.0.tgz
-			mv package webserver
-			cd webserver
-			rm -rf node_modules
-			mkdir -p %s
-			cp haproxy.conf %s
-			npm install
-			rm -f redis/*
-			chmod -R a+w redis
-		''' % (node_directory,
-				node_directory,
-				nvm_directory,
-				os.path.join(nvm_directory, 'nvm.sh'),
-				nvm_directory,
-				os.path.join(nvm_directory, 'nvm.sh'),
-				os.path.join(conf_directory, 'haproxy', 'cert'),
-				os.path.join(conf_directory, 'haproxy'))
+		return cls.multiline(
+			'mkdir -p %s' % node_directory,
+			'cd %s' % node_directory,
+			'mkdir -p %s' % nvm_directory,
+			'if [ ! -f %s ]; then' % os.path.join(nvm_directory, 'nvm.sh'),
+			'  wget -P %s https://raw.github.com/creationix/nvm/master/nvm.sh' % nvm_directory,
+			'source %s' % os.path.join(nvm_directory, 'nvm.sh'),
+			'nvm install v0.8.12',
+			'nvm use v0.8.12',
+			'npm install -g iced-coffee-script',
+			'rm -rf webserver',
+			'wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.1.0.tgz',
+			'tar -xvf koality-webserver-0.1.0.tgz',
+			'rm koality-webserver-0.1.0.tgz',
+			'mv package webserver',
+			'cd webserver',
+			'rm -rf node_modules',
+			'mkdir -p %s' % os.path.join(conf_directory, 'haproxy', 'cert'),
+			'cp haproxy.conf %s' % os.path.join(conf_directory, 'haproxy'),
+			'npm install',
+			'rm -f redis/*',
+			'chmod -R a+w redis',
+		)
 
 
 class WebPackageCleanupScript(Script):
