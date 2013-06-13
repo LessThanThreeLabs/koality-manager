@@ -15,7 +15,9 @@ class PythonPackageScript(ShellScript):
 			'cd python',
 			'./configure --prefix=%s' % os.path.join(dependencies_directory, 'python'),
 			'make',
-			'make install'
+			'make install',
+			'cd /tmp',
+			'rm -rf python'
 		)
 
 
