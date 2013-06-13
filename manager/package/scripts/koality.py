@@ -10,6 +10,7 @@ class PythonPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
+			'[[ ! -f %s ]] || exit 0' % os.path.join(dependencies_directory, 'python', 'bin', 'virtualenv'),
 			'cd /tmp',
 			'git clone git@github.com:LessThanThreeLabs/python.git',
 			'cd python',
@@ -43,7 +44,6 @@ class PlatformPackageScript(ShellScript):
 			'%s setup.py install' % os.path.join(python_bin_directory, 'python'),
 			'%s -m compileall %s' % (os.path.join(python_bin_directory, 'python'), os.path.join(virtualenv_directory, 'lib')),
 			"find %s -name '*.py' | xargs rm" % os.path.join(virtualenv_directory, 'lib'),
-			'%s %s --relocatable' % (virtualenv_binary, virtualenv_directory),
 			'cd /tmp',
 			'rm -rf agles'
 		)

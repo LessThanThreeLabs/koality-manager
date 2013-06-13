@@ -2,8 +2,20 @@ import os
 import random
 import string
 
-from manager.shared import dependencies_directory, node_directory
-from manager.shared.script import ShellScript
+from manager.shared import dependencies_directory, node_directory, python_bin_directory
+from manager.shared.script import Script, ShellScript
+
+
+class PlatformPythonInstallScript(Script):
+	@classmethod
+	def run(cls):
+		for filename in os.listdir(python_bin_directory):
+			with open(os.path.join(python_bin_directory, filename)) as script_file:
+				contents = script_file.read()
+			if contents.startswith('#!/'):
+				contents = '\n'.join(['#!%s' % os.path.join(python_bin_directory, 'python')] + contents.split('\n')[1:])
+				with open(os.path.join(python_bin_directory, filename), 'w') as script_file:
+					script_file.write(contents)
 
 
 class PlatformRabbitmqInstallScript(ShellScript):
@@ -27,9 +39,10 @@ class PlatformRabbitmqInstallScript(ShellScript):
 class PlatformSchemaInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return '''
-			sudo -u postgres psql -c "create user lt3 with password ''"
-			sudo -u postgres psql -c "create database koality"
-			sudo -u postgres psql -c "grant all privileges on database koality to lt3"
-			sudo -u postgres psql -c "alter database koality owner to lt3"
-		'''
+		return cls.multiline(
+			'sudo -u postgres psql -c "create user lt3 with password \'\'"',
+			'sudo -u postgres psql -c "create database koality"',
+			'sudo -u postgres psql -c "grant all privileges on database koality to lt3"',
+			'sudo -u postgres psql -c "alter database koality owner to lt3"',
+			os.path.join(python_bin_directory, 'koality-schema')
+		)
