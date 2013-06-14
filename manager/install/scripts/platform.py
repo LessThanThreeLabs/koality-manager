@@ -16,6 +16,7 @@ class PlatformPythonInstallScript(Script):
 				contents = '\n'.join(['#!%s' % os.path.join(python_bin_directory, 'python')] + contents.split('\n')[1:])
 				with open(os.path.join(python_bin_directory, filename), 'w') as script_file:
 					script_file.write(contents)
+		return True
 
 
 class PlatformRabbitmqInstallScript(ShellScript):
@@ -44,5 +45,5 @@ class PlatformSchemaInstallScript(ShellScript):
 			'sudo -u postgres psql -c "create database koality"',
 			'sudo -u postgres psql -c "grant all privileges on database koality to lt3"',
 			'sudo -u postgres psql -c "alter database koality owner to lt3"',
-			os.path.join(python_bin_directory, 'koality-schema')
+			'sudo -u lt3 %s' % os.path.join(python_bin_directory, 'koality-schema')
 		)

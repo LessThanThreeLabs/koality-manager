@@ -83,7 +83,6 @@ class Runner(object):
 				gid=lt3[3],
 				env={'HOME': lt3[5]},
 				copy_env=True,
-				copy_path=True,
 				priority=1
 			),
 			Watcher(
@@ -97,7 +96,6 @@ class Runner(object):
 				gid=verification[3],
 				env={'HOME': verification[5]},
 				copy_env=True,
-				copy_path=True,
 				priority=2
 			),
 			Watcher(
@@ -111,7 +109,6 @@ class Runner(object):
 				gid=verification[3],
 				env={'HOME': verification[5]},
 				copy_env=True,
-				copy_path=True,
 				priority=2
 			),
 			Watcher(
@@ -125,7 +122,6 @@ class Runner(object):
 				gid=git[3],
 				env={'HOME': git[5]},
 				copy_env=True,
-				copy_path=True,
 				priority=2
 			),
 			# WEB SERVER
