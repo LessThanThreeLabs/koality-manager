@@ -26,7 +26,7 @@ class DependenciesInstallScript(ShellScript):
 class CircusInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		return 'pip install circus'
+		return 'pip install circus==0.7.1'
 
 
 class JavaInstallScript(ShellScript):

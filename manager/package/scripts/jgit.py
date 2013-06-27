@@ -17,7 +17,8 @@ class JgitPackageScript(ShellScript):
 				cd /tmp
 				git clone git://github.com/LessThanThreeLabs/jgit.git
 				cd jgit
-				mvn install -Dmaven.test.skip=true
+				sudo apt-get install -y maven
+				mvn install -Dmaven.test.skip=true || exit 1
 				mkdir -p %s
 				mv org.eclipse.jgit.pgm/target/jgit %s
 				echo $headsha > %s

@@ -10,6 +10,7 @@ class PythonPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
+			'sudo apt-get install -y libbz2-dev zlib1g-dev',
 			'rm -rf %s' % python_directory,
 			'cd /tmp',
 			'git clone git@github.com:LessThanThreeLabs/python.git',
