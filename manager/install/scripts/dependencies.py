@@ -34,11 +34,15 @@ class JavaInstallScript(ShellScript):
 	def get_script(cls):
 		return cls.multiline(
 			'if [ ! -d /usr/lib/jvm/java-6-sun ]; then',
-			'	cd %s' % os.path.join(dependencies_directory, 'java'),
-			'	./oab-java.sh',
-			'	add-apt-repository -y ppa:flexiondotorg/java',
-			'	apt-get update',
-			'	apt-get install -y sun-java6-jdk maven',
+			'	wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F" http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin',
+			'	chmod u+x jdk-6u45-linux-x64.bin',
+			'	./jdk-6u45-linux-x64.bin',
+			'	rm jdk-6u45-linux-x64.bin',
+			'	mkdir -p /usr/lib/jvm',
+			'	mv jdk1.6.0_45 /usr/lib/jvm/java-6-sun',
+			'	sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/java-6-sun/bin/java" 1',
+			'	sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/java-6-sun/bin/javac" 1',
+			'	sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/java-6-sun/bin/javaws" 1',
 			'fi'
 		)
 

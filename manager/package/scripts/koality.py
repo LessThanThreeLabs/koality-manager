@@ -2,7 +2,7 @@ import json
 import os
 
 from manager.shared import conf_directory, dependencies_directory, node_directory, nvm_directory
-from manager.shared import python_bin_directory, upgrade_directory, virtualenv_directory
+from manager.shared import python_directory, python_bin_directory, upgrade_directory
 from manager.shared.script import Script, ShellScript
 
 
@@ -10,28 +10,24 @@ class PythonPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
-			'[[ ! -f %s ]] || exit 0' % os.path.join(dependencies_directory, 'python', 'bin', 'virtualenv'),
+			'rm -rf %s' % python_directory,
 			'cd /tmp',
 			'git clone git@github.com:LessThanThreeLabs/python.git',
 			'cd python',
-			'./configure --prefix=%s' % os.path.join(dependencies_directory, 'python'),
+			'./configure',
 			'make',
-			'make install',
+			'make install prefix=%s' % python_directory,
 			'cd /tmp',
 			'rm -rf python',
-			'curl http://python-distribute.org/distribute_setup.py | %s' % os.path.join(dependencies_directory, 'python', 'bin', 'python'),
-			'curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | %s' % os.path.join(dependencies_directory, 'python', 'bin', 'python'),
-			'%s install virtualenv' % os.path.join(dependencies_directory, 'python', 'bin', 'pip')
+			'curl https://bitbucket.org/pypa/setuptools/raw/0.7.4/ez_setup.py | %s' % os.path.join(python_bin_directory, 'python'),
+			'curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | %s' % os.path.join(python_bin_directory, 'python')
 		)
 
 
 class PlatformPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		virtualenv_binary = os.path.join(dependencies_directory, 'python', 'bin', 'virtualenv')
 		return cls.multiline(
-			'rm -rf %s' % virtualenv_directory,
-			'%s %s --no-site-packages' % (virtualenv_binary, virtualenv_directory),
 			'cd /tmp',
 			'git clone git@github.com:LessThanThreeLabs/agles.git',
 			'cp agles/ci/scripts/rabbitmq_setup.sh %s' % dependencies_directory,
@@ -42,8 +38,8 @@ class PlatformPackageScript(ShellScript):
 			'cp -r alembic* %s' % os.path.join(upgrade_directory, 'alembic'),
 			'%s install -r requirements.txt' % os.path.join(python_bin_directory, 'pip'),
 			'%s setup.py install' % os.path.join(python_bin_directory, 'python'),
-			'%s -m compileall %s' % (os.path.join(python_bin_directory, 'python'), os.path.join(virtualenv_directory, 'lib')),
-			"find %s -name '*.py' | xargs rm" % os.path.join(virtualenv_directory, 'lib'),
+			'%s -m compileall %s' % (os.path.join(python_bin_directory, 'python'), os.path.join(python_directory, 'lib')),
+			"find %s -name '*.py' | xargs rm" % os.path.join(python_directory, 'lib'),
 			'cd /tmp',
 			'rm -rf agles'
 		)
