@@ -6,6 +6,10 @@ class Lt3UserInstallScript(ShellScript):
 	def get_script(cls):
 		return '''
 			adduser lt3 --home /home/lt3 --shell /bin/bash --disabled-password --gecos ""
+			echo 'lt3 ALL=(ALL) NOPASSWD:ALL' > koality.sudo
+			chown 0:0 koality.sudo
+			chmod 0440 koality.sudo
+			mv koality.sudo /etc/sudoers.d/koality
 			mkdir /tmp/model_server
 			chown -R lt3:lt3 /tmp/model_server
 		'''
