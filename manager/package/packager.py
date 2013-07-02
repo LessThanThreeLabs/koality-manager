@@ -43,7 +43,7 @@ class Packager(object):
 					'cd $(dirname $0)',
 					'oldroot=$(readlink -f /etc/koality/root)',
 					'newroot=$(readlink -m $oldroot/../%s)' % Packager.version,
-					'if [ -e "$newroot" ]; then'
+					'if [ -e "$newroot" ]; then',
 					'	rm -rf $newroot.bak',
 					'	mv $newroot $newroot.bak',
 					'fi',
