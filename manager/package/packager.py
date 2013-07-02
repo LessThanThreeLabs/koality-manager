@@ -45,6 +45,7 @@ class Packager(object):
 					'newroot=$(readlink -m $oldroot/../%s)' % Packager.version,
 					'if [ -e "$newroot" ]; then',
 					'	rm -rf $newroot.bak',
+					'	sudo chown -R lt3:lt3 $newroot/..',
 					'	mv $newroot $newroot.bak',
 					'fi',
 					'mv koality $newroot',
