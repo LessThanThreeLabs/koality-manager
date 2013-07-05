@@ -30,6 +30,7 @@ class Packager(object):
 				'mkdir -p %s' % Packager.packaged_directory,
 				'cp -r %s %s' % (koality_root, Packager.internal_packaged_directory),
 				'rm -rf %s' % os.path.join(Packager.internal_packaged_directory, 'manager', 'package'),
+				'rm -rf %s' % os.path.join(Packager.internal_packaged_directory, 'dependencies', 'cached'),
 				'rm -rf %s' % os.path.join(Packager.internal_packaged_directory, '.git')
 			)
 

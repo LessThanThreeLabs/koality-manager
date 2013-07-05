@@ -10,6 +10,11 @@ class PythonPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
+			'if [ -d %s ]; then' % os.path.join(dependencies_directory, 'cached', 'python'),
+			'	rm -rf %s' % python_directory,
+			'	cp -r %s %s' % (os.path.join(dependencies_directory, 'cached', 'python'), python_directory),
+			'	exit',
+			'fi',
 			'sudo apt-get install -y libbz2-dev zlib1g-dev',
 			'rm -rf %s' % python_directory,
 			'cd /tmp',
@@ -21,7 +26,9 @@ class PythonPackageScript(ShellScript):
 			'cd /tmp',
 			'rm -rf python',
 			'curl https://bitbucket.org/pypa/setuptools/raw/0.7.4/ez_setup.py | %s' % os.path.join(python_bin_directory, 'python'),
-			'curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | %s' % os.path.join(python_bin_directory, 'python')
+			'curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | %s' % os.path.join(python_bin_directory, 'python'),
+			'mkdir -p %s' % os.path.join(dependencies_directory, 'cached'),
+			'cp -r %s %s' % (python_directory, os.path.join(dependencies_directory, 'cached'))
 		)
 
 
