@@ -1,5 +1,7 @@
+import json
 import os
 import random
+import re
 import string
 
 from manager.shared import dependencies_directory, node_directory, python_bin_directory
@@ -19,9 +21,9 @@ class PlatformPythonInstallScript(Script):
 		return True
 
 
-class PlatformRabbitmqInstallScript(ShellScript):
+class PlatformRabbitmqInstallScript(Script):
 	@classmethod
-	def get_script(cls):
+	def run(cls):
 		rabbitmq_setup_script = os.path.join(dependencies_directory, 'rabbitmq_setup.sh')
 		platform_rabbitmq_config_file = os.path.join('/etc', 'koality', 'conf', 'rabbit.yml')
 		webserver_config_file = os.path.join(node_directory, 'webserver', 'config.json')
@@ -29,12 +31,25 @@ class PlatformRabbitmqInstallScript(ShellScript):
 		alphanumeric = string.ascii_letters + string.digits
 		rabbitmq_password = ''.join(random.choice(alphanumeric) for x in xrange(36))
 
-		return cls.multiline(
-			'mkdir -p %s' % os.path.join('/etc', 'koality', 'conf'),
-			'sed -i"" "s/password=.*/password=%s/" %s' % (rabbitmq_password, rabbitmq_setup_script),
-			'echo -e "rabbit_password: %s" > %s' % (rabbitmq_password, platform_rabbitmq_config_file),
-			'sed -i"" "s/\\"password\\": \\".*\\"/\\"password\\": \\"%s\\"/" %s' % (rabbitmq_password, webserver_config_file)
-		)
+		config_directory = os.path.join('/etc', 'koality', 'conf')
+		if not os.access(config_directory, os.F_OK):
+			os.makedirs(config_directory)
+
+		with open(rabbitmq_setup_script) as setup_script:
+			setup_script_contents = setup_script.read()
+		with open(rabbitmq_setup_script, 'w') as setup_script:
+			setup_script.write(re.sub('password=.*', 'password=%s' % rabbitmq_password, setup_script_contents))
+
+		with open(platform_rabbitmq_config_file, 'w') as platform_rabbitmq_config:
+			platform_rabbitmq_config.write('rabbit_password: %s' % rabbitmq_password)
+
+		with open(webserver_config_file) as webserver_config:
+			config = json.load(webserver_config)
+		config['modelConnection']['messageBroker']['password'] = rabbitmq_password
+		with open(webserver_config_file, 'w') as webserver_config:
+			json.dump(config, webserver_config, indent=2)
+
+		return True
 
 
 class PlatformSchemaInstallScript(ShellScript):
