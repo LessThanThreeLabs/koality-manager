@@ -88,7 +88,7 @@ class Runner(object):
 			Watcher(
 				name='verification_server',
 				cmd=self._python_bin('koality-start-verification-server'),
-				args=['--type', 'aws', '--cleanup'],
+				args=['--provider', 'aws', '--cleanup'],
 				working_dir='/verification/server',
 				stdout_stream={'filename': os.path.join(log_directory, 'verification_server_stdout.log')},
 				stderr_stream={'filename': os.path.join(log_directory, 'verification_server_stderr.log')},
@@ -99,12 +99,12 @@ class Runner(object):
 				priority=2
 			),
 			Watcher(
-				name='ec2_snapshotter',
-				cmd=self._python_bin('koality-ec2-snapshotter'),
-				args=['--daemon'],
+				name='snapshotter',
+				cmd=self._python_bin('koality-snapshotter'),
+				args=['--provider', 'aws', '--daemon'],
 				working_dir='/verification/snapshotter',
-				stdout_stream={'filename': os.path.join(log_directory, 'ec2_snapshotter_stdout.log')},
-				stderr_stream={'filename': os.path.join(log_directory, 'ec2_snapshotter_stderr.log')},
+				stdout_stream={'filename': os.path.join(log_directory, 'snapshotter_stdout.log')},
+				stderr_stream={'filename': os.path.join(log_directory, 'snapshotter_stderr.log')},
 				uid=verification[2],
 				gid=verification[3],
 				env={'HOME': verification[5]},
