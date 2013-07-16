@@ -11,9 +11,9 @@ class KoalityLinkScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return '''
-			mkdir -p /etc/koality/python
-			rm -rf /etc/koality/python/bin
-			ln -s %s /etc/koality/python/bin
+			mkdir -p /etc/koality
+			rm -rf /etc/koality/python
+			ln -s %s /etc/koality/python
 			rm -rf /etc/koality/root
 			ln -s %s /etc/koality/root
 		''' % (python_bin_directory, koality_root)
