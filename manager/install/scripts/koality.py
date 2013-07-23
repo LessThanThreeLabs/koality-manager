@@ -16,7 +16,7 @@ class KoalityLinkScript(ShellScript):
 			ln -s %s /etc/koality/python
 			rm -rf /etc/koality/root
 			ln -s %s /etc/koality/root
-		''' % (python_bin_directory, koality_root)
+		''' % (os.path.abspath(os.path.join(python_bin_directory, os.pardir)), koality_root)
 
 
 class KoalityServiceInstallScript(Script):
