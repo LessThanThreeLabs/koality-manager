@@ -205,6 +205,6 @@ class Runner(object):
 				'	openssl req -nodes -newkey rsa:2048 -keyout server.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"',
 				'	openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt',
 				'	cat server.key server.crt > server.pem',
-				'	chown lt3:lt3 server.pem',
-				'fi'
+				'fi',
+				'chown -R lt3:lt3 %s' % cert_directory,
 			)

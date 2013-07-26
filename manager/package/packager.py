@@ -6,7 +6,7 @@ from scripts import package_scripts
 
 
 class Packager(object):
-	version = '0.1.6'
+	version = '0.2-internal-1'
 	packaged_directory = os.path.join('/tmp', 'koality', version)
 	internal_packaged_directory = os.path.abspath(os.path.join(packaged_directory, 'koality'))
 
@@ -14,7 +14,7 @@ class Packager(object):
 		self._run_with_exceptions(package_scripts)
 
 		if installable:
-			self._run_with_exceptions([Packager.RepackageScript, Packager.AddUpgradeRevertScript, Packager.TarScript])
+			self._run_with_exceptions([Packager.RepackageScript, Packager.AddInstallationScripts, Packager.TarScript])
 
 	def _run_with_exceptions(self, scripts):
 		for script in scripts:
@@ -34,9 +34,20 @@ class Packager(object):
 				'rm -rf %s' % os.path.join(Packager.internal_packaged_directory, '.git')
 			)
 
-	class AddUpgradeRevertScript(Script):
+	class AddInstallationScripts(Script):
 		@classmethod
 		def run(cls):
+			install_script_path = os.path.join(Packager.packaged_directory, 'install_script')
+			with open(install_script_path, 'w') as install_script:
+				install_script.write(ShellScript.multiline(
+					'#!/bin/sh',
+					'cd $(dirname $0)',
+					'mv koality/* .',
+					'rm koality/.*',
+					'rmdir koality',
+					'sudo ./koality.py install'
+				))
+				os.chmod(install_script_path, 0777)
 			upgrade_script_path = os.path.join(Packager.packaged_directory, 'upgrade_script')
 			with open(upgrade_script_path, 'w') as upgrade_script:
 				upgrade_script.write(ShellScript.multiline(
