@@ -29,6 +29,16 @@ class GitUserInstallScript(ShellScript):
 		'''
 
 
+class HgUserInstallScript(ShellScript):
+	@classmethod
+	def get_script(cls):
+		return '''
+			adduser hg --home /home/hg --shell /bin/bash --disabled-password --gecos ''
+			yes no | sudo -u hg ssh-keygen -t rsa -N "" -f /home/hg/.ssh/id_rsa -C hg_user
+			sudo bash -c 'key=$(cat /home/hg/.ssh/id_rsa.pub); grep "$key" /home/git/.ssh/authorized_keys || echo "$key" >> /home/git/.ssh/authorized_keys'
+		'''
+
+
 class VerificationUserInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):

@@ -32,10 +32,11 @@ class OpenSshConfigureScript(ShellScript):
 				echo "AuthorizedKeysScript %s" >> sshd_config
 				echo "AuthorizedKeysFile /dev/null/authorized_keys" >> sshd_config
 				echo "PasswordAuthentication no" >> sshd_config
-				echo "AllowUsers git" >> sshd_config
-				sed -i.bak -r 's/^AllowUsers .*$/AllowUsers lt3 git ubuntu/g' /etc/ssh/sshd_config
+				echo "AllowUsers git hg" >> sshd_config
+				sed -i.bak -r 's/^AllowUsers .*$/AllowUsers lt3 ubuntu/g' /etc/ssh/sshd_config
 			else
 				sed -i.bak -r 's!^AuthorizedKeysScript.*!AuthorizedKeysScript %s!g' sshd_config
+				sed -i.bak -r 's!^AllowUsers.*!AllowUsers git hg!g' sshd_config
 			fi
 			sed -i.bak -r 's/.*MaxStartups.*/MaxStartups 128/g' sshd_config
 		''' % (authorized_keys_script,

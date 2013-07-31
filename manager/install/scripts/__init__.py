@@ -4,7 +4,7 @@ from jgit import JgitInstallScript
 from koality import KoalityLinkScript, KoalityServiceInstallScript
 from openssh import OpenSshInstallScript, OpenSshConfigureScript
 from platform import PlatformPythonInstallScript, PlatformRabbitmqInstallScript, PlatformSchemaInstallScript
-from user import Lt3UserInstallScript, GitUserInstallScript, VerificationUserInstallScript
+from user import Lt3UserInstallScript, GitUserInstallScript, HgUserInstallScript, VerificationUserInstallScript
 from web import WebInstallScript
 
 install_scripts = [
@@ -20,6 +20,7 @@ install_scripts = [
 	OpenSshConfigureScript,
 	Lt3UserInstallScript,
 	GitUserInstallScript,
+	HgUserInstallScript,
 	VerificationUserInstallScript,
 	PlatformPythonInstallScript,
 	PlatformRabbitmqInstallScript,
