@@ -25,6 +25,7 @@ class GitUserInstallScript(ShellScript):
 			sudo -u git HOME=/home/git git config --global user.email "koality@koalitycode.com"
 			sudo -u git HOME=/home/git git config --global user.name "Koality"
 			mkdir -p /git/repositories
+			sudo -u git bash -c 'echo -e "[ui]\\nusername = Koality <koality@koalitycode.com>\\n\\n[extensions]\\nmq =" > /home/git/.hgrc'
 			chown -R git:git /git
 		'''
 
