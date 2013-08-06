@@ -120,7 +120,7 @@ class Runner(object):
 				stderr_stream={'filename': os.path.join(log_directory, 'filesystem_repo_server_stderr.log')},
 				uid=git[2],
 				gid=git[3],
-				env={'HOME': git[5]},
+				env={'HOME': git[5], 'PATH': '/usr/local/bin:' + os.environ['PATH']},
 				copy_env=True,
 				priority=2
 			),
