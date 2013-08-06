@@ -9,5 +9,5 @@ class MercurialInstallScript(ShellScript):
 	def get_script(cls):
 		return cls.multiline(
 			'cd %s' % os.path.join(dependencies_directory, 'hg'),
-			'sudo make install'
+			'sudo make install-bin'
 		)
