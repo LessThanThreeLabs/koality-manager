@@ -11,5 +11,5 @@ class MercurialPackageScript(ShellScript):
 		return cls.multiline(
 			'sudo apt-get install -y mercurial',
 			'[ ! -d %s ] || rm -rf %s' % (hg_dir, hg_dir),
-			'hg clone ssh://hg@bitbucket.org/akostov/custom_mercurial %s' % hg_dir
+			'hg clone https://bitbucket.org/akostov/custom_mercurial %s' % hg_dir
 		)
