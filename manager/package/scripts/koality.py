@@ -90,9 +90,7 @@ class WebPackageCleanupScript(Script):
 				package_path = os.path.join(root, 'package.json')
 				with open(package_path) as package_file:
 					package_config = json.load(package_file)
-				for entry in ('dependencies', 'devDependencies', 'scripts'):
-					if entry in package_config:
-						del package_config[entry]
+				sanitized_package_config = {key: package_config['key'] for key in ('name', 'version', 'description', 'main')}
 				with open(package_path, 'w') as package_file:
-					json.dump(package_config, package_file)
+					json.dump(sanitized_package_config, package_file)
 		return True
