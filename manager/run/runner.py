@@ -134,7 +134,7 @@ class Runner(object):
 				stderr_stream={'filename': os.path.join(log_directory, 'webserver_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
-				env={'HOME': lt3[5]},
+				env={'HOME': lt3[5], 'PATH': '/usr/local/bin:' + os.environ['PATH']},
 				copy_env=True,
 				copy_path=True,
 				priority=2
