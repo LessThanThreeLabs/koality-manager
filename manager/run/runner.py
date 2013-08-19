@@ -81,7 +81,7 @@ class Runner(object):
 				stderr_stream={'filename': os.path.join(log_directory, 'model_server_stderr.log')},
 				uid=lt3[2],
 				gid=lt3[3],
-				env={'HOME': lt3[5]},
+				env={'HOME': lt3[5], 'PYTHONUNBUFFERED': 'true'},
 				copy_env=True,
 				priority=1
 			),
@@ -94,7 +94,7 @@ class Runner(object):
 				stderr_stream={'filename': os.path.join(log_directory, 'verification_server_stderr.log')},
 				uid=verification[2],
 				gid=verification[3],
-				env={'HOME': verification[5]},
+				env={'HOME': verification[5], 'PYTHONUNBUFFERED': 'true'},
 				copy_env=True,
 				priority=2
 			),
@@ -107,7 +107,7 @@ class Runner(object):
 				stderr_stream={'filename': os.path.join(log_directory, 'snapshotter_stderr.log')},
 				uid=verification[2],
 				gid=verification[3],
-				env={'HOME': verification[5]},
+				env={'HOME': verification[5], 'PYTHONUNBUFFERED': 'true'},
 				copy_env=True,
 				priority=2
 			),
@@ -120,7 +120,7 @@ class Runner(object):
 				stderr_stream={'filename': os.path.join(log_directory, 'filesystem_repo_server_stderr.log')},
 				uid=git[2],
 				gid=git[3],
-				env={'HOME': git[5], 'PATH': '/usr/local/bin:' + os.environ['PATH']},
+				env={'HOME': git[5], 'PATH': '/usr/local/bin:' + os.environ['PATH'], 'PYTHONUNBUFFERED': 'true'},
 				copy_env=True,
 				priority=2
 			),
