@@ -56,9 +56,13 @@ class Packager(object):
 					'oldroot=$(readlink -f /etc/koality/root)',
 					'newroot=$(readlink -m $oldroot/../%s)' % Packager.version,
 					'sudo chown -R lt3:lt3 $oldroot/..',
+					'sudo rm /etc/koality/oldroot',
 					'if [ -e "$newroot" ]; then',
 					'	rm -rf $newroot.bak',
 					'	mv $newroot $newroot.bak',
+					'   sudo ln -s $newroot.bak /etc/koality/oldroot',
+					'else',
+					'   sudo ln -s $oldroot, /etc/koality/oldroot',
 					'fi',
 					'mv koality $newroot',
 					'cd $newroot',
@@ -70,10 +74,16 @@ class Packager(object):
 				revert_script.write(ShellScript.multiline(
 					'#!/bin/sh',
 					'koalityroot=$(readlink -f /etc/koality/root)',
+					'oldroot=$(readlink -f /etc/koality/oldroot)',
 					'if [ -e "${koalityroot}.bak" ]; then',
-					'	mv "${koalityroot}.bak" "$koalityroot"',
-					'	sudo service koality restart',
+					'   mv "$koalityroot" "${koalityroot}.bak2"',
+					'   mv "${koalityroot}.bak" "$koalityroot"',
+					'   cd $koalityroot',
+					'else',
+					'   cd $oldroot',
 					'fi',
+					'sudo ./koality.py install > $(dirname $0)/revert.log 2>&1',
+					'sudo service koality restart'
 				))
 				os.chmod(revert_script_path, 0777)
 			return True
