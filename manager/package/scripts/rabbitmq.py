@@ -7,8 +7,6 @@ class RabbitmqPackageScript(ShellScript):
 	def get_script(cls):
 		return '''
 			cd %s
-			if [ ! -f rabbitmq-server.deb ]; then
-				wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.1.0/rabbitmq-server_3.1.0-1_all.deb
-				mv rabbitmq-server_3.1.0-1_all.deb rabbitmq-server.deb
-			fi
+			wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.1.0/rabbitmq-server_3.1.0-1_all.deb
+			mv rabbitmq-server_3.1.0-1_all.deb rabbitmq-server.deb
 		''' % dependencies_directory
