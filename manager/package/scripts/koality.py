@@ -43,6 +43,7 @@ class PlatformPackageScript(ShellScript):
 			'mkdir -p %s' % os.path.join(conf_directory, 'redis'),
 			'cp conf/redis/* %s' % os.path.join(conf_directory, 'redis'),
 			'mkdir -p %s' % os.path.join(upgrade_directory, 'alembic'),
+			'rm -rf %s/*' % os.path.join(upgrade_directory, 'alembic'),
 			'cp -r alembic* %s' % os.path.join(upgrade_directory, 'alembic'),
 			'%s install -r requirements.txt' % os.path.join(python_bin_directory, 'pip'),
 			'%s setup.py install' % os.path.join(python_bin_directory, 'python'),

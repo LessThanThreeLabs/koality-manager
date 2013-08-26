@@ -42,7 +42,7 @@ class DatabaseMigrateScript(ShellScript):
 			'	r=$?',
 			'done',
 			'if [ "$r" -ne "255" ]; then',
-			'	%s downgrade $database_version' % alembic_bin,
+			'	sudo -u lt3 %s downgrade $database_version' % alembic_bin,
 			'	exit $r',
 			'fi'
 		)
