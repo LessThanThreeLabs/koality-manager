@@ -35,7 +35,7 @@ class DatabaseMigrateScript(ShellScript):
 		alembic_bin = os.path.join(python_bin_directory, 'alembic')
 		return cls.multiline(
 			'cd %s' % os.path.join(upgrade_directory, 'alembic'),
-			"database_version=$(%s current --head-only 2>/dev/null | awk '{print $1}')" % alembic_bin,
+			"database_version=$(sudo -u lt3 %s current --head-only 2>/dev/null | awk '{print $1}')" % alembic_bin,
 			'r=0',
 			'while [ "$r" -eq "0" ]; do',
 			'	sudo -u lt3 %s upgrade +1' % alembic_bin,
