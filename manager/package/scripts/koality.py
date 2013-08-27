@@ -27,6 +27,7 @@ class PythonPackageScript(ShellScript):
 			'rm -rf python',
 			'curl https://bitbucket.org/pypa/setuptools/raw/0.7.4/ez_setup.py | %s' % os.path.join(python_bin_directory, 'python'),
 			'curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | %s' % os.path.join(python_bin_directory, 'python'),
+			'%s install pip --upgrade' % os.path.join(python_directory, 'pip'),
 			'mkdir -p %s' % os.path.join(dependencies_directory, 'cached'),
 			'cp -r %s %s' % (python_directory, os.path.join(dependencies_directory, 'cached'))
 		)
