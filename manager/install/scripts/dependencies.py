@@ -71,10 +71,10 @@ class RabbitmqInstallScript(ShellScript):
 			'if [ ! -f /usr/local/bin/rabbitmqadmin ]; then',
 			'	rabbitmq-plugins enable rabbitmq_management',
 			'	service rabbitmq-server restart',
-			'	wget --http-user=guest --http-password=guest localhost:55672/cli/rabbitmqadmin',
-			'	chmod +x rabbitmqadmin',
-			'	mv rabbitmqadmin /usr/local/bin/rabbitmqadmin',
-			'fi'
+			'fi',
+			'wget --http-user=guest --http-password=guest localhost:55672/cli/rabbitmqadmin',
+			'chmod +x rabbitmqadmin',
+			'mv rabbitmqadmin /usr/local/bin/rabbitmqadmin'
 		)
 
 
