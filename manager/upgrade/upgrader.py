@@ -35,7 +35,7 @@ class DatabaseMigrateScript(ShellScript):
 		alembic_bin = os.path.join(python_bin_directory, 'alembic')
 		return cls.multiline(
 			'cd %s' % os.path.join(upgrade_directory, 'alembic'),
-			'%s upgrade head' % alembic_bin
+			'sudo -u lt3 %s upgrade head' % alembic_bin
 		)
 
 
