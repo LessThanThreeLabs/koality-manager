@@ -36,7 +36,7 @@ class OpenSshConfigureScript(ShellScript):
 				sed -i.bak -r 's/^AllowUsers .*$/AllowUsers lt3 ubuntu/g' /etc/ssh/sshd_config
 			else
 				sed -i.bak -r 's!^AuthorizedKeysScript.*!AuthorizedKeysScript %s!g' sshd_config
-				sed -i.bak -r 's!^AllowUsers.*!AllowUsers git hg!g' sshd_config
+				sed -i.bak -r 's!^AllowUsers.*!AllowUsers git hg verification!g' sshd_config
 			fi
 			sed -i.bak -r 's/.*MaxStartups.*/MaxStartups 128/g' sshd_config
 		''' % (authorized_keys_script,
