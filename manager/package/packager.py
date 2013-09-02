@@ -62,7 +62,7 @@ class Packager(object):
 					'	mv $newroot $newroot.bak',
 					'   sudo ln -s $newroot.bak /etc/koality/oldroot',
 					'else',
-					'   sudo ln -s $oldroot, /etc/koality/oldroot',
+					'   sudo ln -s $oldroot /etc/koality/oldroot',
 					'fi',
 					'mv koality $newroot',
 					'cd $newroot',
