@@ -6,15 +6,15 @@ from scripts import package_scripts
 
 
 class Packager(object):
-	version = '0.4.0'
+	version = '0.4.0-internal-1'
 	packaged_directory = os.path.join('/tmp', 'koality', version)
 	internal_packaged_directory = os.path.abspath(os.path.join(packaged_directory, 'koality'))
 
-	def run(self, installable=False):
+	def run(self, publish=True):
 		self._run_with_exceptions(package_scripts)
-
-		if installable:
-			self._run_with_exceptions([Packager.RepackageScript, Packager.AddInstallationScripts, Packager.TarScript])
+		self._run_with_exceptions([Packager.RepackageScript, Packager.AddInstallationScripts, Packager.TarScript])
+		if publish:
+			self._run_with_exceptions([Packager.PublishScript])
 
 	def _run_with_exceptions(self, scripts):
 		for script in scripts:
@@ -103,6 +103,15 @@ class Packager(object):
 					tarfile,
 					os.path.join(koality_root, os.pardir)
 				)
+			)
+
+	class PublishScript(ShellScript):
+		@classmethod
+		def get_script(cls):
+			tarfile = 'koality-%s.tar.gz' % Packager.version
+			return cls.multiline(
+				'cd %s' % os.path.join(koality_root, os.pardir),
+				's3cmd put %s s3://koality_release/upgrade/%s' % (tarfile, tarfile)
 			)
 
 
