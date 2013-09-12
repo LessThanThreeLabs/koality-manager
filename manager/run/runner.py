@@ -127,7 +127,7 @@ class Runner(object):
 			# WEB SERVER
 			Watcher(
 				name='webserver',
-				cmd=os.path.join(nvm_directory, 'v0.8.12', 'bin', 'node'),
+				cmd=os.path.join(nvm_directory, 'v0.10.13', 'bin', 'node'),
 				args=['--harmony', os.path.join(node_directory, 'webserver', 'libs', 'index.js'), '--httpPort', '1080', '--mode', 'production'],
 				working_dir=os.path.join(node_directory, 'webserver'),
 				stdout_stream={'filename': os.path.join(log_directory, 'webserver_stdout.log')},
