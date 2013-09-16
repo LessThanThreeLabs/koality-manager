@@ -2,7 +2,7 @@ import os
 import shutil
 
 from manager.install import Installer
-from manager.shared import upgrade_directory, python_bin_directory, node_directory
+from manager.shared import koality_root, upgrade_directory, python_bin_directory, node_directory
 from manager.shared.script import Script, ShellScript
 
 
@@ -12,7 +12,8 @@ class Upgrader(object):
 			self._run_with_exceptions(KoalityShutdownScript)
 			Installer().run()
 			self._run_with_exceptions(DatabaseMigrateScript)
-			CopyRedisScript.run()
+			CopyWebserverRedisScript.run()
+			CopyPlatformRedisScript.run()
 		finally:
 			if restart:
 				self._run_with_exceptions(KoalityStartupScript)
@@ -42,12 +43,20 @@ class DatabaseMigrateScript(ShellScript):
 class CopyRedisScript(Script):
 	@classmethod
 	def run(cls):
-		old_redis_dir = os.path.realpath(os.path.join('/etc', 'koality', 'oldroot', 'node', 'webserver', 'redis', 'db'))
-		new_redis_dir = os.path.abspath(os.path.join(node_directory, 'webserver', 'redis', 'db'))
-		for filename in os.listdir(old_redis_dir):
-			if os.path.isfile(os.path.join(old_redis_dir, filename)):
-				shutil.copy(os.path.join(old_redis_dir, filename), os.path.join(new_redis_dir, filename))
+		for filename in os.listdir(cls.old_redis_dir):
+			if os.path.isfile(os.path.join(cls.old_redis_dir, filename)):
+				shutil.copy(os.path.join(cls.old_redis_dir, filename), os.path.join(cls.new_redis_dir, filename))
 		return True
+
+
+class CopyWebserverRedisScript(Script):
+	old_redis_dir = os.path.realpath(os.path.join('/etc', 'koality', 'oldroot', 'node', 'webserver', 'redis', 'db'))
+	new_redis_dir = os.path.abspath(os.path.join(node_directory, 'webserver', 'redis', 'db'))
+
+
+class CopyPlatformRedisScript(Script):
+	old_redis_dir = os.path.realpath(os.path.join('/etc', 'koality', 'oldroot', 'db', 'redis'))
+	new_redis_dir = os.path.abspath(os.path.join(koality_root, 'db', 'redis'))
 
 
 class KoalityStartupScript(ShellScript):
