@@ -49,12 +49,12 @@ class CopyRedisScript(Script):
 		return True
 
 
-class CopyWebserverRedisScript(Script):
+class CopyWebserverRedisScript(CopyRedisScript):
 	old_redis_dir = os.path.realpath(os.path.join('/etc', 'koality', 'oldroot', 'node', 'webserver', 'redis', 'db'))
 	new_redis_dir = os.path.abspath(os.path.join(node_directory, 'webserver', 'redis', 'db'))
 
 
-class CopyPlatformRedisScript(Script):
+class CopyPlatformRedisScript(CopyRedisScript):
 	old_redis_dir = os.path.realpath(os.path.join('/etc', 'koality', 'oldroot', 'db', 'redis'))
 	new_redis_dir = os.path.abspath(os.path.join(koality_root, 'db', 'redis'))
 
