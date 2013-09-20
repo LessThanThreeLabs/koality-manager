@@ -3,18 +3,18 @@
 
 # To use this script you must do the following:
 #  1. Run as the user lt3 (sudo su lt3)
-#  2. Create .virtualenv/2.6 .virtualenv/2.7 in ~ (for lt3)
+#  2. Create .virtualenvs/2.6 .virtualenvs/2.7 in ~ (for lt3)
 #  3. Use rvm to install ruby 1.9.3 and 2.0.0
 
 set -e
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get upgrade -y
 sudo apt-get install -y ruby-dev python-dev libzmq-dev mongodb mongodb-server libsqlite3-dev libjpeg-dev libjpeg8-dev libfreetype6-dev libpng-dev zlib1g-dev libxslt-dev libxml2-dev libmysqlclient-dev libyaml-dev
 sudo apt-get install -y gfortran libopenblas-dev liblapack-dev libffi-dev
 
 for PY_VERSION in '2.6' '2.7'
 do
-        source /home/lt3/.virtualenv/$PY_VERSION/bin/activate
+        source /home/lt3/.virtualenvs/$PY_VERSION/bin/activate
         pip install --upgrade pip
         pip install --upgrade numpy
         pip install --upgrade scipy
