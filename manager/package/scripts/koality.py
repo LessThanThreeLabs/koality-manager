@@ -38,7 +38,7 @@ class PlatformPackageScript(ShellScript):
 	def get_script(cls):
 		return cls.multiline(
 			'cd /tmp',
-			'git clone git@github.com:LessThanThreeLabs/agles.git -b 0.4.1',
+			'git clone git@github.com:LessThanThreeLabs/agles.git -b 0.4.2',
 			'cp agles/ci/scripts/rabbitmq_setup.sh %s' % dependencies_directory,
 			'cd agles/ci/platform',
 			'mkdir -p %s' % os.path.join(conf_directory, 'redis'),
