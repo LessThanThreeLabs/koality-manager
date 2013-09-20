@@ -37,5 +37,5 @@ do
         gem install --no-ri --no-rdoc omniauth omniauth-google-oauth2 omniauth-twitter omniauth-github omniauth-facebook omniauth-openid omniauth-wordpress twitter rails_admin stripe stripe_event
         gem install --no-ri --no-rdoc multi_fetch_fragments activerecord-import activerecord activeresource
         gem install --no-ri --no-rdoc coveralls rspec-rails spinach-rails capybara pry database_cleaner launchy minitest ffaker guard guard-rspec guard-spinach poltergeist spork jasmine simplecov shoulda-matchers webmock test_after_commit webrat mocha insist parallel_tests selenium-webdriver cucumber-rails cucumber
-        gem install --no-ri --no-rdoc mini_portile highline rest daemons polyglot atomic treetop diff execjs actionmailer activesupport ffi multi_json activemodel script tilt arel json test sprockets formatador journey mime mail i18n erubis types sass ssl hike builder thor actionpack rack
+        gem install --no-ri --no-rdoc mini_portile highline rest daemons polyglot atomic treetop diff execjs actionmailer activesupport ffi multi_json activemodel tilt arel json test sprockets formatador journey mime mail i18n erubis types sass ssl hike builder thor actionpack rack
 done
