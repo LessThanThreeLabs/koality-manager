@@ -38,7 +38,7 @@ class PlatformPackageScript(ShellScript):
 	def get_script(cls):
 		return cls.multiline(
 			'cd /tmp',
-			'git clone git@github.com:LessThanThreeLabs/agles.git -b 0.4.6',
+			'git clone git@github.com:LessThanThreeLabs/agles.git -b 0.5.0',
 			'cp agles/ci/scripts/rabbitmq_setup.sh %s' % dependencies_directory,
 			'cd agles/ci/platform',
 			'mkdir -p %s' % os.path.join(conf_directory, 'redis'),
@@ -70,9 +70,9 @@ class WebPackageScript(ShellScript):
 			'nvm use v0.10.13',
 			'npm install -g iced-coffee-script',
 			'rm -rf webserver',
-			'wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.4.1.tgz',
-			'tar -xvf koality-webserver-0.4.1.tgz',
-			'rm koality-webserver-0.4.1.tgz',
+			'wget https://s3.amazonaws.com/koality_code/libraries/private-cd855575be99a357/koality-webserver-0.5.0.tgz',
+			'tar -xvf koality-webserver-0.5.0.tgz',
+			'rm koality-webserver-0.5.0.tgz',
 			'mv package webserver',
 			'cd webserver',
 			'rm -rf node_modules',
