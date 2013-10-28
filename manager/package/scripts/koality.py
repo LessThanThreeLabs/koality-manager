@@ -76,8 +76,8 @@ class WebPackageScript(ShellScript):
 			'mv package webserver',
 			'cd webserver',
 			'rm -rf node_modules',
-			'mkdir -p %s' % os.path.join(conf_directory, 'haproxy', 'cert'),
-			'cp haproxy.conf %s' % os.path.join(conf_directory, 'haproxy'),
+			'mkdir -p %s' % os.path.join(conf_directory, 'nginx'),
+			'cp %s %s' % (os.path.join('nginx', 'nginx.conf'), os.path.join(conf_directory, 'nginx')),
 			'npm install',
 			'rm -f redis/*',
 			'chmod -R a+w redis'

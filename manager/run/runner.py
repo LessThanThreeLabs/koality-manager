@@ -59,13 +59,13 @@ class Runner(object):
 				copy_path=True,
 				priority=0
 			),
-			# HAPROXY
+			# NGINX
 			Watcher(
-				name='haproxy',
-				cmd='/usr/local/sbin/haproxy',
-				args=['-f', os.path.join(conf_directory, 'haproxy', 'haproxy.conf')],
-				stdout_stream={'filename': os.path.join(log_directory, 'haproxy_stdout.log')},
-				stderr_stream={'filename': os.path.join(log_directory, 'haproxy_stderr.log')},
+				name='nginx',
+				cmd='/usr/local/sbin/nginx',
+				args=['-f', os.path.join(conf_directory, 'nginx', 'nginx.conf')],
+				stdout_stream={'filename': os.path.join(log_directory, 'nginx_stdout.log')},
+				stderr_stream={'filename': os.path.join(log_directory, 'nginx_stderr.log')},
 				uid=root[2],
 				gid=root[3],
 				copy_env=True,
@@ -152,7 +152,7 @@ class Runner(object):
 		if not Runner.OpenSshLaunchScript.run():
 			raise Exception('''Could not launch openssh daemon.
 				Check your system before logging out or this machine may become inaccessible.''')
-		if not Runner.HaproxyCertGenerationScript.run():
+		if not Runner.NginxCertGenerationScript.run():
 			raise Exception('Could not verify or create openssl certificate')
 		arbiter = Arbiter(self._watchers, 'tcp://127.0.0.1:5555', 'tcp://127.0.0.1:5556', debug=True)
 		try:
@@ -193,18 +193,21 @@ class Runner(object):
 				cls._start_modified_daemon_script
 			))
 
-	class HaproxyCertGenerationScript(ShellScript):
+	class NginxCertGenerationScript(ShellScript):
 		@classmethod
 		def get_script(cls):
 			cert_directory = os.path.join('/etc/', 'koality', 'cert')
 			return cls.multiline(
-				'if [ ! -f %s ]; then' % os.path.join(cert_directory, 'server.pem'),
-				'	mkdir -p %s' % cert_directory,
-				'	cd %s' % cert_directory,
-				'	rm -f *',
-				'	openssl req -nodes -newkey rsa:2048 -keyout server.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"',
-				'	openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt',
-				'	cat server.key server.crt > server.pem',
+				'mkdir -p %s' % cert_directory,
+				'cd %s' % cert_directory,
+				'if [ ! -f certificate.pem ] || [ ! -f privatekey.pem ]; then',
+				'	if [ -f server.pem ]; then',
+				"		awk 'split_after == 1 {n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > \"certificate\" n \".pem\"}'",
+				'		mv certificate1.pem privatekey.pem && exit',
+				'	fi',
 				'fi',
+				'rm -f *',
+				'openssl req -nodes -newkey rsa:2048 -keyout privatekey.pem -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"',
+				'openssl x509 -req -days 365 -in server.csr -signkey privatekey.pem -out certificate.pem',
 				'chown -R lt3:lt3 %s' % cert_directory,
 			)

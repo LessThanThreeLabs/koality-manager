@@ -1,4 +1,4 @@
-from dependencies import DependenciesInstallScript, CircusInstallScript, JavaInstallScript, HaproxyInstallScript
+from dependencies import DependenciesInstallScript, CircusInstallScript, JavaInstallScript, NginxInstallScript
 from dependencies import RabbitmqInstallScript, RedisInstallScript, PostgresInstallScript
 from jgit import JgitInstallScript
 from koality import KoalityLinkScript, KoalityServiceInstallScript
@@ -13,7 +13,7 @@ install_scripts = [
 	CircusInstallScript,
 	JavaInstallScript,
 	JgitInstallScript,
-	HaproxyInstallScript,
+	NginxInstallScript,
 	RabbitmqInstallScript,
 	RedisInstallScript,
 	PostgresInstallScript,

@@ -12,7 +12,8 @@ class DependenciesInstallScript(ShellScript):
 		'build-essential',
 		'libyaml-dev',
 		'python-dev',
-		'python-pip'
+		'python-pip',
+		'openssl'
 	)
 
 	@classmethod
@@ -47,17 +48,16 @@ class JavaInstallScript(ShellScript):
 		)
 
 
-class HaproxyInstallScript(ShellScript):
+class NginxInstallScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
-			'if [ ! "$(which haproxy)" ]; then',
-			'	cd %s' % os.path.join(dependencies_directory, 'haproxy'),
+			'if [ ! "$(which nginx)" ]; then',
+			'	cd %s' % os.path.join(dependencies_directory, 'nginx'),
+			'	./configure --with-http_ssl_module --sbin-path=/usr/local/sbin/nginx',
 			'	make clean',
-			'	make install USE_OPENSSL=1 -j 4',
-			'fi',
-			'cd %s' % os.path.join(conf_directory, 'haproxy'),
-			"sed -i.bak -r 's!( crt ).+( ciphers )!\\1%s\\2!g' haproxy.conf" % os.path.join('/etc', 'koality', 'cert', 'server.pem')
+			'	sudo make install',
+			'fi'
 		)
 
 
