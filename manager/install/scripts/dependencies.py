@@ -54,7 +54,7 @@ class NginxInstallScript(ShellScript):
 		return cls.multiline(
 			'if [ ! "$(which nginx)" ]; then',
 			'	cd %s' % os.path.join(dependencies_directory, 'nginx'),
-			'	./configure --with-http_ssl_module --sbin-path=/usr/local/sbin/nginx',
+			'	./configure --without-http_rewrite_module --with-http_ssl_module --sbin-path=/usr/local/sbin/nginx',
 			'	make clean',
 			'	sudo make install',
 			'fi'
