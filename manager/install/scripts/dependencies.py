@@ -13,7 +13,8 @@ class DependenciesInstallScript(ShellScript):
 		'libyaml-dev',
 		'python-dev',
 		'python-pip',
-		'openssl'
+		'openssl',
+		'libpcre3-dev'
 	)
 
 	@classmethod
@@ -55,8 +56,10 @@ class NginxInstallScript(ShellScript):
 			'if [ ! "$(which nginx)" ]; then',
 			'	cd %s' % os.path.join(dependencies_directory, 'nginx'),
 			'	make clean',
-			'	./configure --without-http_rewrite_module --with-http_ssl_module --sbin-path=/usr/local/sbin/nginx',
+			'	./configure --with-http_ssl_module --sbin-path=/usr/local/sbin/nginx',
 			'	sudo make install',
+			'	sudo mkdir -p /etc/nginx',
+			'	sudo ln -s /usr/local/nginx/conf/mime.types /etc/nginx/mime.types'
 			'fi'
 		)
 
