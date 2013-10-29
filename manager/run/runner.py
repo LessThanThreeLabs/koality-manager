@@ -63,7 +63,7 @@ class Runner(object):
 			Watcher(
 				name='nginx',
 				cmd='/usr/local/sbin/nginx',
-				args=['-f', os.path.join(conf_directory, 'nginx', 'nginx.conf')],
+				args=['-c', os.path.join(conf_directory, 'nginx', 'nginx.conf')],
 				stdout_stream={'filename': os.path.join(log_directory, 'nginx_stdout.log')},
 				stderr_stream={'filename': os.path.join(log_directory, 'nginx_stderr.log')},
 				uid=root[2],
@@ -200,14 +200,15 @@ class Runner(object):
 			return cls.multiline(
 				'mkdir -p %s' % cert_directory,
 				'cd %s' % cert_directory,
-				'if [ ! -f certificate.pem ] || [ ! -f privatekey.pem ]; then',
-				'	if [ -f server.pem ]; then',
-				"		awk 'split_after == 1 {n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > \"certificate\" n \".pem\"}' < server.pem",
-				'		mv certificate1.pem privatekey.pem && chown -R lt3:lt3 %s && exit' % cert_directory,
-				'	fi',
+				'if [ -f  certificate.pem ] && [ -f privatekey.pem]; then',
+				'	exit 0',
+				'fi',
+				'if [ -f server.pem ]; then',
+				"	awk 'split_after == 1 {n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > \"certificate\" n \".pem\"}' < server.pem",
+				'	mv certificate1.pem privatekey.pem && chown -R lt3:lt3 . && exit',
 				'fi',
 				'rm -f *',
 				'openssl req -nodes -newkey rsa:2048 -keyout privatekey.pem -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=Koality/OU=Koality/CN=*.koalitycode.com"',
 				'openssl x509 -req -days 365 -in server.csr -signkey privatekey.pem -out certificate.pem',
-				'chown -R lt3:lt3 %s' % cert_directory,
+				'chown -R lt3:lt3 .'
 			)
