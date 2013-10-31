@@ -59,7 +59,7 @@ class NginxInstallScript(ShellScript):
 			'	./configure --with-http_ssl_module --sbin-path=/usr/local/sbin/nginx',
 			'	sudo make install',
 			'	sudo mkdir -p /etc/nginx',
-			'	sudo ln -s /usr/local/nginx/conf/mime.types /etc/nginx/mime.types'
+			'	sudo ln -s /usr/local/nginx/conf/mime.types /etc/nginx/mime.types',
 			'fi'
 		)
 
