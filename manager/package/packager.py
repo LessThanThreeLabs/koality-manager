@@ -6,7 +6,7 @@ from scripts import package_scripts
 
 
 class Packager(object):
-	version = '0.7.2'
+	version = '0.7.3-internal-1'
 	packaged_directory = os.path.join('/tmp', 'koality', version)
 	internal_packaged_directory = os.path.abspath(os.path.join(packaged_directory, 'koality'))
 
