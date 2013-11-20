@@ -7,7 +7,7 @@ from manager.shared.script import ShellScript
 class JgitPackageScript(ShellScript):
 	@classmethod
 	def get_script(cls):
-		jgit_branch = '0.3'
+		jgit_branch = '0.7.5'
 		jgit_dir = os.path.join(dependencies_directory, 'jgit')
 		jgit_version_file = os.path.join(jgit_dir, '.version')
 		return '''
