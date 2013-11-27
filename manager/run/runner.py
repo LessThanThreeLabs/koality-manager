@@ -196,11 +196,11 @@ class Runner(object):
 	class NginxCertGenerationScript(ShellScript):
 		@classmethod
 		def get_script(cls):
-			cert_directory = os.path.join('/etc/', 'koality', 'cert')
+			cert_directory = os.path.join('/etc', 'koality', 'cert')
 			return cls.multiline(
 				'mkdir -p %s' % cert_directory,
 				'cd %s' % cert_directory,
-				'if [ -f  certificate.pem ] && [ -f privatekey.pem]; then',
+				'if [ -f  certificate.pem ] && [ -f privatekey.pem ]; then',
 				'	exit 0',
 				'fi',
 				'if [ -f server.pem ]; then',
