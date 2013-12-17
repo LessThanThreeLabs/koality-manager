@@ -1,6 +1,6 @@
 import os
 
-from manager.shared import koality_root, conf_directory, dependencies_directory
+from manager.shared import koality_root, dependencies_directory
 from manager.shared.script import ShellScript
 
 
@@ -61,6 +61,15 @@ class NginxInstallScript(ShellScript):
 			'	sudo mkdir -p /etc/nginx',
 			'	sudo ln -s /usr/local/nginx/conf/mime.types /etc/nginx/mime.types',
 			'fi'
+		)
+
+
+class NtpSetupScript(ShellScript):
+	@classmethod
+	def get_script(cls):
+		return cls.multiline(
+			'echo "ntpdate pool.ntp.org" > sudo /etc/cron.daily/ntpdate',
+			'sudo chmod 755 /etc/cron.daily/ntpdate'
 		)
 
 
