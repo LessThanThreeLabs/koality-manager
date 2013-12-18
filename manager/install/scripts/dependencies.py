@@ -68,7 +68,7 @@ class NtpSetupScript(ShellScript):
 	@classmethod
 	def get_script(cls):
 		return cls.multiline(
-			'echo "ntpdate pool.ntp.org" > sudo /etc/cron.daily/ntpdate',
+			'sudo echo "ntpdate pool.ntp.org" > /etc/cron.daily/ntpdate',
 			'sudo chmod 755 /etc/cron.daily/ntpdate'
 		)
 
