@@ -49,6 +49,6 @@ class VerificationUserInstallScript(ShellScript):
 			mkdir -p /verification/server /verification/snapshotter
 			chown -R verification:verification /verification
 			groupadd docker
-			gpasswd -a verification docker
-			service docker restart
+			usermod -aG docker verification
+			chmod a+rw /var/run/docker.sock
 		'''
