@@ -1,5 +1,5 @@
 from dependencies import DependenciesInstallScript, CircusInstallScript, JavaInstallScript, NginxInstallScript
-from dependencies import NtpSetupScript, RabbitmqInstallScript, RedisInstallScript, PostgresInstallScript
+from dependencies import NtpSetupScript, RabbitmqInstallScript, RedisInstallScript, PostgresInstallScript, DockerInstallScript
 from jgit import JgitInstallScript
 from koality import KoalityLinkScript, KoalityServiceInstallScript
 from mercurial import MercurialInstallScript
@@ -18,6 +18,7 @@ install_scripts = [
 	RabbitmqInstallScript,
 	RedisInstallScript,
 	PostgresInstallScript,
+	DockerInstallScript,
 	MercurialInstallScript,
 	OpenSshInstallScript,
 	OpenSshConfigureScript,

@@ -48,4 +48,7 @@ class VerificationUserInstallScript(ShellScript):
 			yes no | sudo -u verification ssh-keygen -t rsa -N "" -f /home/verification/.ssh/id_rsa -C verification_user
 			mkdir -p /verification/server /verification/snapshotter
 			chown -R verification:verification /verification
+			groupadd docker
+			gpasswd -a verification docker
+			service docker restart
 		'''

@@ -6,6 +6,7 @@ from manager.shared.script import ShellScript
 
 class DependenciesInstallScript(ShellScript):
 	_dependencies = (
+		'curl',
 		'make',
 		'git',
 		'python-software-properties',
@@ -113,3 +114,9 @@ class PostgresInstallScript(ShellScript):
 			"sed -i.bak -r 's/^.*fsync .*$/fsync off/g' /etc/postgresql/9.1/main/postgresql.conf",
 			'service postgresql restart',
 		)
+
+
+class DockerInstallScript(ShellScript):
+	@classmethod
+	def get_script(cls):
+		return 'curl -s https://get.docker.io/ubuntu/ | sudo sh'
